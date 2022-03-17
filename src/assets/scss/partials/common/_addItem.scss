@@ -1,0 +1,17 @@
+.add-icon {
+  color: #0F469D;
+  display: inline-block;
+  opacity: 1;
+}
+
+.add-item {
+  .add-item-text {
+    color: #363A3D;
+    font-weight: 500;
+    font-size: 1.3rem;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
