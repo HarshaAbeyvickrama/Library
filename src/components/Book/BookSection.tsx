@@ -48,10 +48,12 @@ const BookSection: React.FC = () => {
             <Divider/>
             {!books
                 ? <EmptyList sectionTitle={"Book"}/>
-                : <List items={books} onDeleteIconClicked={onBookDeleteClicked} onEditIconClicked={() => {}}/>
+                : <List items={books} onDeleteIconClicked={onBookDeleteClicked} onEditIconClicked={() => {
+                }}/>
             }
             <AddItem title={"Book"} onAddItemClick={handleOnAddItemClick}/>
-            {showBookForm && <BookForm onFormClose={() => {}} options={options}/>}
+            {showBookForm && <BookForm onFormClose={() => {
+            }} options={options}/>}
             <DeleteConfirmation
                 onDelete={onItemDeleted}
                 show={showDeleteConfirmation}
