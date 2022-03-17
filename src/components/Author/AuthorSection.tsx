@@ -11,10 +11,10 @@ import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
 
 interface AuthorSectionProps {
     authors: IAuthor[] | null,
-    handleSetAuthors: (newAuthors: IAuthor[]) => void
+    onSetAuthors: (newAuthors: IAuthor[]) => void
 }
 
-const AuthorSection: React.FC<AuthorSectionProps> = ({authors, handleSetAuthors}) => {
+const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) => {
     const [newAuthor, setNewAuthor] = useState<IAuthor | null>(null);
     const [showAuthorForm, setShowAuthorForm] = useState(false);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -68,7 +68,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, handleSetAuthors}
         })
         const allAuthors = authors;
         allAuthors.splice(authorIndexToBeDeleted, 1);
-        handleSetAuthors(allAuthors);
+        onSetAuthors(allAuthors);
         setShowDeleteConfirmation(true);
     }
     const handleOnSubmit = (e: React.FormEvent) => {
@@ -84,7 +84,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, handleSetAuthors}
                 const allAuthors = authors;
                 if (currentAuthorToBeEdited) {
                     allAuthors.splice(authorIndexEdited, 1, currentAuthorToBeEdited);
-                    handleSetAuthors(allAuthors);
+                    onSetAuthors(allAuthors);
                 }
             }
         } else {
@@ -102,9 +102,9 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, handleSetAuthors}
             return;
         }
         if (!authors) {
-            handleSetAuthors([newAuthor]);
+            onSetAuthors([newAuthor]);
         } else {
-            handleSetAuthors([...authors, newAuthor]);
+            onSetAuthors([...authors, newAuthor]);
         }
 
     }, [newAuthor])

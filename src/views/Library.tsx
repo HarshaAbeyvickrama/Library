@@ -1,11 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import Welcome from "../components/Welcome/Welcome";
-import BookForm from "../components/Book/BookForm";
 import AuthorSection from "../components/Author/AuthorSection";
 import BookSection from "../components/Book/BookSection";
+import {IAuthor} from "../types/IAuthor";
 
 const Library: React.FC = () => {
+    //Author list
+    const [authors, setAuthors] = useState<IAuthor[] | null>(null);
+    const handleOnSetAuthors = (newAuthors :IAuthor[] | null) => {
+        setAuthors(newAuthors);
+    }
+
     return (
         <Container fluid={true}>
             <Row>
@@ -14,12 +20,11 @@ const Library: React.FC = () => {
                 </Col>
                 <Col lg={{order: 1, span: 6}} md={{order: 2, span: 12}} xs={{order: 2, span: 12}}
                      className="px-md-5 p-3">
-                    <BookSection />
+                    <BookSection/>
                 </Col>
                 <Col lg={{order: 2, span: 6}} md={{order: 1, span: 12}} xs={{order: 1, span: 12}}
                      className="px-md-5 p-3">
-                    {/*<BookForm onFormClose={()=>{}} options={[]} />*/}
-                    <AuthorSection authors={null} handleSetAuthors={()=>{}} />
+                    <AuthorSection authors={authors} onSetAuthors={handleOnSetAuthors}/>
                 </Col>
             </Row>
         </Container>
