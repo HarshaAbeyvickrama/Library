@@ -7,8 +7,9 @@ import {IAuthor} from "../types/IAuthor";
 
 const Library: React.FC = () => {
     //Author list
-    const [authors, setAuthors] = useState<IAuthor[] | null>(null);
-    const handleOnSetAuthors = (newAuthors :IAuthor[] | null) => {
+    const [authors, setAuthors] = useState<IAuthor[]>([]);
+    //Handle set authors function
+    const handleOnSetAuthors = (newAuthors :IAuthor[]) => {
         setAuthors(newAuthors);
     }
 

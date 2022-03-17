@@ -9,7 +9,7 @@ interface AuthorFormProps {
     onFormClose: () => void,
     handleOnSubmit: (e: React.FormEvent) => void,
     isEditing: boolean,
-    currentAuthorEdited: IAuthor | null
+    currentAuthorEdited: IAuthor | null,
 }
 
 const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, handleOnSubmit, isEditing, currentAuthorEdited}) => {
