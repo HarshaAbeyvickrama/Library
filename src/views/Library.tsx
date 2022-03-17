@@ -11,7 +11,6 @@ const Library: React.FC = () => {
                 </Col>
                 <Col lg={{order: 1, span: 6}} md={{order: 2, span: 12}} xs={{order: 2, span: 12}}
                      className="px-md-5 p-3">
-
                 </Col>
                 <Col lg={{order: 2, span: 6}} md={{order: 1, span: 12}} xs={{order: 1, span: 12}}
                      className="px-md-5 p-3">
