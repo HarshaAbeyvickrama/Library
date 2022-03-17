@@ -1,0 +1,20 @@
+.input-field {
+  input {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 0;
+    border-width: 2px;
+    outline: none;
+    border-color: #969696;
+    box-shadow: none !important;
+
+    &:focus {
+      border-color: #969696;
+    }
+  }
+
+  span {
+    font-size: 0.9rem;
+    padding-left: 4px;
+  }
+}

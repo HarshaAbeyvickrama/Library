@@ -2,6 +2,7 @@ import React from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import Welcome from "../components/Welcome/Welcome";
 import CreateButton from "../components/Common/CreateButton";
+import InputField from "../components/Common/InputField";
 
 const Library: React.FC = () => {
     return (
@@ -12,7 +13,7 @@ const Library: React.FC = () => {
                 </Col>
                 <Col lg={{order: 1, span: 6}} md={{order: 2, span: 12}} xs={{order: 2, span: 12}}
                      className="px-md-5 p-3">
-                    <CreateButton title={"kjahsd"} />
+
                 </Col>
                 <Col lg={{order: 2, span: 6}} md={{order: 1, span: 12}} xs={{order: 1, span: 12}}
                      className="px-md-5 p-3">
