@@ -9,10 +9,11 @@ import AuthorForm from "./AuthorForm";
 
 interface AuthorSectionProps {
     authors: IAuthor[],
-    onSetAuthors: (newAuthors: IAuthor[]) => void
+    onSetAuthors: (newAuthors: IAuthor[]) => void,
+    onDeleteAuthor: (index: number) => void
 }
 
-const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) => {
+const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors,onDeleteAuthor}) => {
     //Show from state
     const [showForm, setShowForm] = useState<boolean>(false);
 
@@ -37,10 +38,9 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
             <Divider/>
             {authors.length === 0
                 ? <EmptyList sectionTitle={"Author"}/>
-                : <List items={authors} onDeleteIconClicked={() => {
-                }} onEditIconClicked={() => {
-                }}
-                />
+                : <List items={authors}
+                        onDeleteIconClicked={onDeleteAuthor}
+                        onEditIconClicked={() => {} } />
             }
             <AddItem title={"Author"} onAddItemClick={handleAddAuthorClick}/>
             {showForm &&

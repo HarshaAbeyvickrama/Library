@@ -13,6 +13,12 @@ const Library: React.FC = () => {
         setAuthors(newAuthors);
     }
 
+    //Delete author handler
+    const handleOnDeleteAuthor = (id: number) => {
+        const newAuthors =authors.filter((author:IAuthor,index:number) => index !== id)
+        setAuthors(newAuthors);
+    }
+
     return (
         <Container fluid={true}>
             <Row>
@@ -25,7 +31,11 @@ const Library: React.FC = () => {
                 </Col>
                 <Col lg={{order: 2, span: 6}} md={{order: 1, span: 12}} xs={{order: 1, span: 12}}
                      className="px-md-5 p-3">
-                    <AuthorSection authors={authors} onSetAuthors={handleOnSetAuthors}/>
+                    <AuthorSection
+                        authors={authors}
+                        onSetAuthors={handleOnSetAuthors}
+                        onDeleteAuthor={handleOnDeleteAuthor}
+                    />
                 </Col>
             </Row>
         </Container>
