@@ -7,15 +7,16 @@ import {IAuthor} from "../../types/IAuthor";
 
 interface AuthorFormProps {
     onFormClose: () => void,
-    handleOnSubmit: (e: React.FormEvent) => void,
+    onSubmit: (newAuthor : IAuthor) => void,
     isEditing: boolean,
     currentAuthorEdited: IAuthor | null,
 }
 
-const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, handleOnSubmit, isEditing, currentAuthorEdited}) => {
+const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing, currentAuthorEdited}) => {
     const [currentAuthorName, setCurrentAuthorName] = useState<string>('');
     const handleOnAuthorFormSubmit = (e: React.FormEvent) => {
-        handleOnSubmit(e);
+        e.preventDefault();
+        onSubmit({authorName: currentAuthorName});
         setCurrentAuthorName('');
     }
     //setting current author to be edited on input field
