@@ -4,21 +4,41 @@ import FormTitle from "../Common/FormTitle";
 import InputField from "../Common/InputField";
 import CreateButton from "../Common/CreateButton";
 import {IAuthor} from "../../types/IAuthor";
+import Feedback from "react-bootstrap/Feedback";
+import {IError} from "../../types/IError";
 
 interface AuthorFormProps {
     onFormClose: () => void,
-    onSubmit: (newAuthor : IAuthor) => void,
+    onSubmit: (newAuthor: IAuthor) => void,
     isEditing: boolean,
     currentAuthorEdited: IAuthor | null,
+    authors: IAuthor[]
 }
 
-const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing, currentAuthorEdited}) => {
+const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing, authors, currentAuthorEdited}) => {
     const [currentAuthorName, setCurrentAuthorName] = useState<string>('');
+    const [authorErrors, setAuthorErrors] = useState<IError>({authorError: ''})
+    const [isSubmit, setIsSubmit] = useState(true);
+
     const handleOnAuthorFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        // setAuthorErrors(validate(currentAuthorName));
         onSubmit({authorName: currentAuthorName});
         setCurrentAuthorName('');
     }
+    //validate author
+    // const validate = (value: string) => {
+    //     setIsSubmit(true);
+    //     const error: IError = {authorError: ''};
+    //     if (value === '') {
+    //         error.authorError = "Author name is required";
+    //         setIsSubmit(false);
+    //     } else if (authors.some(author => author.authorName === value)) {
+    //         error.authorError = 'Author name already exists';
+    //         setIsSubmit(false);
+    //     }
+    //     return error;
+    // }
     //setting current author to be edited on input field
 
     useEffect(() => {
@@ -35,8 +55,13 @@ const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing
             <Form className="ps-0" onSubmit={handleOnAuthorFormSubmit}>
                 <Col xs={12} lg={9} className="px-0">
                     <FormTitle name={isEditing ? "Edit Author" : "Create Author"} onFormClose={onFormClose}/>
-                    <InputField title={"Name of Author"} name={"authorName"} value={currentAuthorName}
-                                onChange={handleOnAuthorNameChange}/>
+                    <InputField
+                        title={"Name of Author"}
+                        name={"authorName"}
+                        value={currentAuthorName}
+                        onChange={handleOnAuthorNameChange}
+                        errorMessage={authorErrors.authorError}
+                    />
                     <CreateButton title={isEditing ? "Update" : "Create"}/>
                 </Col>
             </Form>

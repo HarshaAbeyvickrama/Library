@@ -4,7 +4,6 @@ import Divider from "../Common/Divider";
 import {IAuthor} from "../../types/IAuthor";
 import EmptyList from "../Common/EmptyList";
 import List from "../Common/List";
-import CreateButton from "../Common/CreateButton";
 import AddItem from "../Common/AddItem";
 import AuthorForm from "./AuthorForm";
 
@@ -21,15 +20,17 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
     const handleAddAuthorClick = () => {
         setShowForm(!showForm);
     }
+
     //Form close handler
     const handleFormClose = () => {
         setShowForm(!showForm);
     }
     //create author handler
-    const handleOnSubmit = (newAuthor : IAuthor) => {
-        const newAuthors = [...authors , newAuthor];
+    const handleOnSubmit = (newAuthor: IAuthor) => {
+        const newAuthors = [...authors, newAuthor];
         onSetAuthors(newAuthors);
     }
+
     return (
         <React.Fragment>
             <SectionTitle title={"Authors"}/>
@@ -43,8 +44,13 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
             }
             <AddItem title={"Author"} onAddItemClick={handleAddAuthorClick}/>
             {showForm &&
-                <AuthorForm onFormClose={handleFormClose} onSubmit={handleOnSubmit} isEditing={false}
-                            currentAuthorEdited={null}/>
+                <AuthorForm
+                    onFormClose={handleFormClose}
+                    onSubmit={handleOnSubmit}
+                    isEditing={false}
+                    currentAuthorEdited={null}
+                    authors={authors}
+                />
             }
         </React.Fragment>
     );
