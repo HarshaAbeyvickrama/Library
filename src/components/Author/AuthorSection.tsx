@@ -18,7 +18,7 @@ interface AuthorSectionProps {
 const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) => {
     //Show from state
     const [showAuthorForm, setShowAuthorForm] = useState<boolean>(false);
-    const [currentAuthorEdited, setCurrentAuthorEdited] = useState<IAuthor>({authorName: ''});
+    const [currentAuthorEdited, setCurrentAuthorEdited] = useState<IAuthor | null>({authorName: ''});
     const [currentEditedAuthorIndex, setCurrentEditedAuthorIndex] = useState<number>(-1);
     const [currentAuthorTobeDeleted, setCurrentAuthorToBeDeleted] = useState<IAuthor | null>(null);
     const [currentAuthorIndexTobeDeleted, setCurrentAuthorIndexToBeDeleted] = useState<number>(-1);
@@ -35,8 +35,8 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
     //Form close handler
     const handleFormClose = () => {
         setIsEditing(false);
-        setShowAuthorForm(false);
-
+        setShowAuthorForm(!showAuthorForm);
+        setCurrentAuthorEdited(null);
     }
     //create author handler
     const handleOnSubmit = (newAuthor: IAuthor) => {
@@ -89,12 +89,9 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
         setShowAuthorForm(true);
         setCurrentAuthorEdited(editedAuthor);
     }
-    //Submit edited author handler
-    const handleOnAuthorEdited = (editedAuthor: IAuthor) => {
-        console.log(editedAuthor);
-    }
+
     useEffect(() => {
-        if (currentAuthorEdited.authorName === '') {
+        if (currentAuthorEdited?.authorName === '') {
             return;
         }
         setShowAuthorForm(true);
@@ -117,6 +114,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
                     onSubmit={handleOnSubmit}
                     isEditing={isEditing}
                     currentAuthorEdited={currentAuthorEdited}
+                    authors={authors}
                 />
             }
             <DeleteConfirmation
