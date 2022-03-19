@@ -26,7 +26,7 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
     const [currentEditedBookIndex , setCurrentEditedBookIndex ] = useState<number>(-1);
     const [currentBookEdited , setCurrentBookEdited] = useState<IBook | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
-
+    const [successMessage, setSuccessMessage] = useState<string>('');
     //Book form close handler
     const handleFormClose = () => {
         setShowBookForm(!showBookForm);
@@ -46,6 +46,8 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
         }
         const newBooks = [...books, newBook];
         onSetBooks(newBooks);
+        setSuccessMessage("Book Created Successfully!");
+        setShowSuccessAlert(true);
     }
     //Delete book handler
     const handleOnDeleteBook = (id: number) => {
@@ -119,8 +121,8 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
             <SuccessTimeoutAlert
                 show={showSuccessAlert}
                 setShow={setShowSuccessAlert}
-                title={"Book Deleted Successfully!"}
-                timeout={1500}
+                title={successMessage}
+                timeout={1000}
             />
 
         </React.Fragment>
