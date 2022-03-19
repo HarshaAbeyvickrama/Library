@@ -22,8 +22,20 @@ const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing
         e.preventDefault();
         // setAuthorErrors(validate(currentAuthorName));
         onSubmit({authorName: currentAuthorName});
+        handleClearFields();
+    }
+    //Clear fields
+    const handleClearFields = () => {
         setCurrentAuthorName('');
     }
+    //handle form close
+    const handleFormClose = () => {
+        // handleClearFields();
+        const newAuthorName = "";
+        setCurrentAuthorName(newAuthorName);
+        onFormClose();
+    }
+
     //validate author
     // const validate = (value: string) => {
     //     setIsSubmit(true);
@@ -52,7 +64,7 @@ const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing
         <Row className="px-0 mt-4 mb-2 mx-0">
             <Form className="ps-0" onSubmit={handleOnAuthorFormSubmit}>
                 <Col xs={12} lg={9} className="px-0">
-                    <FormTitle name={isEditing ? "Edit Author" : "Create Author"} onFormClose={onFormClose}/>
+                    <FormTitle name={isEditing ? "Edit Author" : "Create Author"} onFormClose={handleFormClose}/>
                     <InputField
                         title={"Name of Author"}
                         name={"authorName"}

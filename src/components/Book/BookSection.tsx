@@ -29,11 +29,13 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
     const [successMessage, setSuccessMessage] = useState<string>('');
     //Book form close handler
     const handleFormClose = () => {
+        setIsEditing(false);
         setShowBookForm(!showBookForm);
     }
     //Add Book click handler
     const handleOnAddBookClick = () => {
         setShowBookForm(true);
+
     }
     //Create Book handler
     const handleOnSubmit = (newBook: IBook) => {
@@ -72,6 +74,7 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
     const onItemDeleted = () => {
         setShowDeleteConfirmation(false);
         handleOnDeleteBook(currentBookIndexTobeDeleted);
+        setSuccessMessage("Book Deleted Successfully!");
         setShowSuccessAlert(true);
     }
     const onBookDeleteClicked = (bookIndexToBeDeleted: number) => {

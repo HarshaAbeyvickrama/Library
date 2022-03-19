@@ -26,6 +26,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false);
     const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false);
     const [successMessage, setSuccessMessage] = useState<string>('');
+
     //Add author button click handler
     const handleAddAuthorClick = () => {
         setShowAuthorForm(!showAuthorForm);
@@ -33,7 +34,9 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
 
     //Form close handler
     const handleFormClose = () => {
-        setShowAuthorForm(!showAuthorForm);
+        setIsEditing(false);
+        setShowAuthorForm(false);
+
     }
     //create author handler
     const handleOnSubmit = (newAuthor: IAuthor) => {
@@ -71,6 +74,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
         setShowDeleteConfirmation(false);
         handleOnDeleteAuthor(currentAuthorIndexTobeDeleted);
         setShowSuccessAlert(true);
+        setSuccessMessage("Author Deleted Successfully!");
     }
     //Edit author handler
     const handleOnEditAuthorClicked = (id: number) => {
@@ -82,6 +86,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
         }
         setCurrentEditedAuthorIndex(id);
         setIsEditing(true);
+        setShowAuthorForm(true);
         setCurrentAuthorEdited(editedAuthor);
     }
     //Submit edited author handler

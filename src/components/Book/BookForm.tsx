@@ -38,7 +38,16 @@ const BookForm: React.FC<BookFormProps> = ({onFormClose, options,onSubmit,author
         setCurrentBookISBN('');
         setCurrentBookAuthor(null);
     }
-
+    //Clear fields
+    const handleClearFields = () => {
+        setCurrentBookTitle('');
+        setCurrentBookISBN('');
+        setCurrentBookAuthor(null);
+    }
+    const handleFormClose = () =>{
+        handleClearFields();
+        onFormClose();
+    }
     //Field value change handlers
     const handleOnBookTitleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
         setCurrentBookTitle(e.target.value);
@@ -76,7 +85,7 @@ const BookForm: React.FC<BookFormProps> = ({onFormClose, options,onSubmit,author
         <Row className="px-0 my-4 my-md-4 mx-0">
             <Form className="ps-0" onSubmit={handleOnBookFormSubmit}>
                 <Col xs={12} lg={9} md={10} className="px-0">
-                    <FormTitle name={isEditing ? "Edit Book" : "Create Book"} onFormClose={onFormClose}/>
+                    <FormTitle name={isEditing ? "Edit Book" : "Create Book"} onFormClose={handleFormClose}/>
                     <InputField
                         title={"Title of the Book"}
                         name={"bookTitle"}
