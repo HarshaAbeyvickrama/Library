@@ -11,44 +11,57 @@ interface AuthorFormProps {
     onSubmit: (newAuthor: IAuthor) => void,
     isEditing: boolean,
     currentAuthorEdited: IAuthor | null,
+    authors: IAuthor[]
 }
 
-const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing, currentAuthorEdited}) => {
+const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing, currentAuthorEdited,authors}) => {
     const [currentAuthorName, setCurrentAuthorName] = useState<string>('');
-    const [authorErrors, setAuthorErrors] = useState<IError>({authorError: ''})
-    const [isSubmit, setIsSubmit] = useState(true);
+    const [authorErrors, setAuthorErrors] = useState<IError | null>(null)
+    const [isSubmit, setIsSubmit] = useState(false);
+
+    useEffect(() => {
+        if(currentAuthorEdited === null){
+            handleClearFields();
+        }
+    },[currentAuthorEdited])
 
     const handleOnAuthorFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // setAuthorErrors(validate(currentAuthorName));
-        onSubmit({authorName: currentAuthorName});
-        handleClearFields();
+        setAuthorErrors(validate(currentAuthorName));
+
     }
+    useEffect(() => {
+        if(!authorErrors && isSubmit){
+            onSubmit({authorName: currentAuthorName});
+            handleClearFields();
+        }
+    },[isSubmit,authorErrors])
+
     //Clear fields
     const handleClearFields = () => {
         setCurrentAuthorName('');
     }
     //handle form close
     const handleFormClose = () => {
-        // handleClearFields();
-        const newAuthorName = "";
-        setCurrentAuthorName(newAuthorName);
         onFormClose();
     }
 
-    //validate author
-    // const validate = (value: string) => {
-    //     setIsSubmit(true);
-    //     const error: IError = {authorError: ''};
-    //     if (value === '') {
-    //         error.authorError = "Author name is required";
-    //         setIsSubmit(false);
-    //     } else if (authors.some(author => author.authorName === value)) {
-    //         error.authorError = 'Author name already exists';
-    //         setIsSubmit(false);
-    //     }
-    //     return error;
-    // }
+    // validate author
+    const validate = (value: string) => {
+        setIsSubmit(true);
+        let error: IError | null = {authorError: ''};
+        if (value === '') {
+            error.authorError = "Author name is required";
+            setIsSubmit(false);
+        } else if (authors.some(author => author.authorName === value)) {
+            error.authorError = 'Author already exists';
+            setIsSubmit(false);
+        } else {
+            error = null;
+        }
+        return error;
+    }
+
     //setting current author to be edited on input field
 
     useEffect(() => {
@@ -59,6 +72,7 @@ const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing
 
     const handleOnAuthorNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCurrentAuthorName(e.target.value)
+        // setAuthorErrors(null);
     }
     return (
         <Row className="px-0 mt-4 mb-2 mx-0">
@@ -70,7 +84,7 @@ const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing
                         name={"authorName"}
                         value={currentAuthorName}
                         onChange={handleOnAuthorNameChange}
-                        errorMessage={authorErrors.authorError}
+                        errorMessage={authorErrors?.authorError}
                     />
                     <CreateButton title={isEditing ? "Update" : "Create"}/>
                 </Col>

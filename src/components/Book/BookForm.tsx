@@ -16,51 +16,88 @@ interface BookFormProps {
     authors: IAuthor[],
     isEditing: boolean,
     currentBookEdited: IBook | null,
-    currentEditedBookIndex: number
+    currentEditedBookIndex: number,
+    books: IBook[],
 }
 
-const BookForm: React.FC<BookFormProps> = ({onFormClose, options,onSubmit,authors,isEditing,currentBookEdited,currentEditedBookIndex}) => {
-    const [currentBookTitle , setCurrentBookTitle] = useState<string>('');
-    const [currentBookISBN , setCurrentBookISBN] = useState<string>('');
-    const [currentBookAuthor , setCurrentBookAuthor] = useState<IAuthorOption | null>(null);
-    const [bookErrors , setBookErrors ] = useState<IError>({bookTitleError:'',ISBNError:''});
-    const [authorOptions , setAuthorOptions ] = useState<IAuthorOption[]>([]);
+const BookForm: React.FC<BookFormProps> = ({
+                                               onFormClose,
+                                               options,
+                                               onSubmit,
+                                               authors,
+                                               isEditing,
+                                               currentBookEdited,
+                                               currentEditedBookIndex,
+                                               books
+                                           }) => {
+    const [currentBookTitle, setCurrentBookTitle] = useState<string>('');
+    const [currentBookISBN, setCurrentBookISBN] = useState<string>('');
+    const [currentBookAuthor, setCurrentBookAuthor] = useState<IAuthorOption | null>(null);
+    const [bookErrors, setBookErrors] = useState<IError | null>({bookTitleError: '', ISBNError: ''});
+    const [authorOptions, setAuthorOptions] = useState<IAuthorOption[]>([]);
+    const [isSubmit, setIsSubmit] = useState(false);
 
+    useEffect(() => {
+        if(currentBookEdited === null){
+            handleClearFields();
+        }
+    },[currentBookEdited])
     //Book from submit handler
     const handleOnBookFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit({
-            title:currentBookTitle,
-            ISBN:currentBookISBN,
-            author: currentBookAuthor ? {authorName:currentBookAuthor.label} : {authorName:''}
-        });
-        setCurrentBookTitle('');
-        setCurrentBookISBN('');
-        setCurrentBookAuthor(null);
+        const newBook: IBook = {
+            title: currentBookTitle,
+            ISBN: currentBookISBN,
+            author: currentBookAuthor ? {authorName: currentBookAuthor.label} : {authorName: ''}
+        };
+        // setBookErrors(validate(newBook));
+        onSubmit(newBook);
     }
+    // useEffect(() => {
+    //     if(!bookErrors && isSubmit && currentBookAuthor){
+    //         onSubmit({
+    //             title: currentBookTitle,
+    //             ISBN: currentBookISBN,
+    //             author: {authorName: currentBookAuthor.label}
+    //         });
+    //         handleClearFields();
+    //     }
+    // },[bookErrors])
+    //Validation
+    const validate = (book: IBook) => {
+        setIsSubmit(true);
+        let error: IError | null = {};
+        if(book.title === ''){
+            error.bookTitleError = "Book title is required";
+            setIsSubmit(false);
+        }else {
+            error = null;
+        }
+        return error;
+    }
+
     //Clear fields
     const handleClearFields = () => {
         setCurrentBookTitle('');
         setCurrentBookISBN('');
         setCurrentBookAuthor(null);
     }
-    const handleFormClose = () =>{
-        handleClearFields();
+    const handleFormClose = () => {
         onFormClose();
     }
     //Field value change handlers
-    const handleOnBookTitleChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
+    const handleOnBookTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCurrentBookTitle(e.target.value);
     }
-    const handleOnBookISBNChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
+    const handleOnBookISBNChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCurrentBookISBN(e.target.value);
     }
     const handleOnBookAuthorChange = (e: IAuthorOption) => {
         setCurrentBookAuthor({...e})
     }
-    useEffect(()=>{
-        const newAuthorOptions = authors.map((author,index) => {
-            const authorOption:IAuthorOption = {
+    useEffect(() => {
+        const newAuthorOptions = authors.map((author, index) => {
+            const authorOption: IAuthorOption = {
                 value: index,
                 label: author.authorName
             }
@@ -69,7 +106,7 @@ const BookForm: React.FC<BookFormProps> = ({onFormClose, options,onSubmit,author
         setAuthorOptions([
             ...newAuthorOptions
         ])
-    },[authors]);
+    }, [authors]);
 
     useEffect(() => {
         if (currentBookEdited) {
@@ -91,16 +128,17 @@ const BookForm: React.FC<BookFormProps> = ({onFormClose, options,onSubmit,author
                         name={"bookTitle"}
                         value={currentBookTitle}
                         onChange={handleOnBookTitleChange}
-                        errorMessage={bookErrors.bookTitleError}
+                        errorMessage={bookErrors?.bookTitleError}
                     />
                     <InputField
                         title={"ISBN"}
                         name={"ISBN"}
                         value={currentBookISBN}
                         onChange={handleOnBookISBNChange}
-                        errorMessage={bookErrors.ISBNError}
+                        errorMessage={bookErrors?.ISBNError}
                     />
                     <SelectDropdown
+                        title="Author"
                         options={authorOptions}
                         onChange={handleOnBookAuthorChange}
                         currentSelectedAuthor={currentBookAuthor}

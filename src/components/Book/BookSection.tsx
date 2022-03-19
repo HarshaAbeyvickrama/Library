@@ -31,10 +31,12 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
     const handleFormClose = () => {
         setIsEditing(false);
         setShowBookForm(!showBookForm);
+        setCurrentBookEdited(null);
     }
     //Add Book click handler
     const handleOnAddBookClick = () => {
         setShowBookForm(true);
+        setIsEditing(false);
 
     }
     //Create Book handler
@@ -115,6 +117,7 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
                     isEditing={isEditing}
                     currentBookEdited={currentBookEdited}
                     currentEditedBookIndex={currentEditedBookIndex}
+                    books={books}
                 />}
             <DeleteConfirmation
                 onDelete={onItemDeleted}
