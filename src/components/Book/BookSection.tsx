@@ -116,7 +116,6 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
             <SuccessTimeoutAlert
                 show={showSuccessAlert}
                 setShow={setShowSuccessAlert}
-                message={"Book"}
                 title={"Book Deleted Successfully!"}
                 timeout={1500}
             />

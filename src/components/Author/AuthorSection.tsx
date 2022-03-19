@@ -6,6 +6,7 @@ import EmptyList from "../Common/EmptyList";
 import List from "../Common/List";
 import AddItem from "../Common/AddItem";
 import AuthorForm from "./AuthorForm";
+import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
 
 interface AuthorSectionProps {
     authors: IAuthor[],
@@ -18,7 +19,8 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
     const [currentAuthorEdited, setCurrentAuthorEdited] = useState<IAuthor>({authorName: ''});
     const [currentEditedAuthorIndex, setCurrentEditedAuthorIndex] = useState<number>(-1);
     const [isEditing, setIsEditing] = useState(false);
-
+    const [showSuccessAlert , setShowSuccessAlert ] = useState<boolean>(false);
+    const [successMessage , setSuccessMessage ] = useState<string>('');
     //Add author button click handler
     const handleAddAuthorClick = () => {
         setShowAuthorForm(!showAuthorForm);
@@ -39,6 +41,8 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
         }
         const newAuthors = [...authors, newAuthor];
         onSetAuthors(newAuthors);
+        setSuccessMessage("Author Created Successfully!");
+        setShowSuccessAlert(true);
     }
     //Delete author handler
     const handleOnDeleteAuthor = (id: number) => {
@@ -87,6 +91,12 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
                     currentAuthorEdited={currentAuthorEdited}
                 />
             }
+            <SuccessTimeoutAlert
+                show={showSuccessAlert}
+                setShow={setShowSuccessAlert}
+                title={successMessage}
+                timeout={1500}
+            />
         </React.Fragment>
     );
 }
