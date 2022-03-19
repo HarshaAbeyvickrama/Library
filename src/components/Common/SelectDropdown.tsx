@@ -2,13 +2,19 @@ import React , {Component} from "react";
 import Select from "react-select";
 import {IAuthorOption} from "../../types/IAuthorOption";
 
-const options:IAuthorOption[] = [
-
-]
-const SelectDropdown : React.FC = () =>{
+interface SelectDropdownProps {
+    options: IAuthorOption[],
+    onChange: (e: any) => void,
+    currentSelectedAuthor:IAuthorOption | null
+}
+const SelectDropdown : React.FC<SelectDropdownProps> = ({options,onChange,currentSelectedAuthor}) =>{
 
     return(
-        <Select options={options} />
+        <Select
+            value={currentSelectedAuthor}
+            options={options}
+            onChange={onChange}
+        />
     );
 }
 

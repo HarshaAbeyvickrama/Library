@@ -4,7 +4,6 @@ import FormTitle from "../Common/FormTitle";
 import InputField from "../Common/InputField";
 import CreateButton from "../Common/CreateButton";
 import {IAuthor} from "../../types/IAuthor";
-import Feedback from "react-bootstrap/Feedback";
 import {IError} from "../../types/IError";
 
 interface AuthorFormProps {
@@ -12,10 +11,9 @@ interface AuthorFormProps {
     onSubmit: (newAuthor: IAuthor) => void,
     isEditing: boolean,
     currentAuthorEdited: IAuthor | null,
-    authors: IAuthor[]
 }
 
-const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing, authors, currentAuthorEdited}) => {
+const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing, currentAuthorEdited}) => {
     const [currentAuthorName, setCurrentAuthorName] = useState<string>('');
     const [authorErrors, setAuthorErrors] = useState<IError>({authorError: ''})
     const [isSubmit, setIsSubmit] = useState(true);

@@ -8,24 +8,73 @@ import BookForm from "./BookForm";
 import {IBook} from "../../types/IBook";
 import DeleteConfirmation from "../Alerts/DeleteConfirmation";
 import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
+import {IAuthor} from "../../types/IAuthor";
 
-const BookSection: React.FC = () => {
-    const books: IBook[] = [
-        {title: "The Daughter's Tale"},
-        {title: "Himself"},
-        {title: "Gorgeous Lies"},
-        {title: "All the Missing Girls"},
-        {title: "The Beautiful Bureaucrat"},
-    ];
+interface bookSectionProps {
+    books: IBook[],
+    onSetBooks: (newBooks: IBook[]) => void,
+    authors: IAuthor[]
+}
 
+const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) => {
+    //show form state
+    const [showBookForm, setShowBookForm] = useState(false);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [currentBookTobeDeleted, setCurrentBookToBeDeleted] = useState<IBook | null>(null);
+    const [currentBookIndexTobeDeleted, setCurrentBookIndexToBeDeleted] = useState<number>(-1);
+    const [currentEditedBookIndex , setCurrentEditedBookIndex ] = useState<number>(-1);
+    const [currentBookEdited , setCurrentBookEdited] = useState<IBook | null>(null);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+
+    //Book form close handler
+    const handleFormClose = () => {
+        setShowBookForm(!showBookForm);
+    }
+    //Add Book click handler
+    const handleOnAddBookClick = () => {
+        setShowBookForm(true);
+    }
+    //Create Book handler
+    const handleOnSubmit = (newBook: IBook) => {
+        if(isEditing){
+            const newBookList = books;
+            newBookList.splice(currentEditedBookIndex, 1, newBook);
+            onSetBooks(newBookList);
+            setIsEditing(false);
+            return;
+        }
+        const newBooks = [...books, newBook];
+        onSetBooks(newBooks);
+    }
+    //Delete book handler
+    const handleOnDeleteBook = (id: number) => {
+        const newBooks = books.filter((book: IBook, index: number) => index !== id)
+        onSetBooks(newBooks);
+    }
+    //Edit Book handler
+    const handleOnEditBookClicked = (id: number) => {
+        const editedBook = books.find((book, index) => {
+            return index === id;
+        })
+        if (editedBook === undefined) {
+            return;
+        }
+        setCurrentEditedBookIndex(id);
+        setIsEditing(true);
+        setCurrentBookEdited(editedBook);
+        setShowBookForm(true);
+    }
     const onItemDeleted = () => {
         setShowDeleteConfirmation(false);
+        handleOnDeleteBook(currentBookIndexTobeDeleted);
         setShowSuccessAlert(true);
     }
     const onBookDeleteClicked = (bookIndexToBeDeleted: number) => {
         books.forEach((book: IBook, index) => {
             if (index === bookIndexToBeDeleted) {
                 setCurrentBookToBeDeleted(book);
+                setCurrentBookIndexToBeDeleted(bookIndexToBeDeleted);
             }
         })
         setShowDeleteConfirmation(true);
@@ -34,26 +83,29 @@ const BookSection: React.FC = () => {
     const options = books.filter((book, index) => (
         {value: index, label: book.title}
     ));
-    const [showBookForm, setShowBookForm] = useState(false);
-    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-    const [currentBookTobeDeleted, setCurrentBookToBeDeleted] = useState<IBook | null>(null);
-    const handleOnAddItemClick = () => {
-        setShowBookForm(true);
 
-    }
     return (
         <React.Fragment>
             <SectionTitle title={"Books"}/>
             <Divider/>
-            {!books
+            {books.length === 0
                 ? <EmptyList sectionTitle={"Book"}/>
-                : <List items={books} onDeleteIconClicked={onBookDeleteClicked} onEditIconClicked={() => {
-                }}/>
+                : <List items={books}
+                        onDeleteIconClicked={onBookDeleteClicked}
+                        onEditIconClicked={handleOnEditBookClicked}
+                />
             }
-            <AddItem title={"Book"} onAddItemClick={handleOnAddItemClick}/>
-            {showBookForm && <BookForm onFormClose={() => {
-            }} options={options}/>}
+            <AddItem title={"Book"} onAddItemClick={handleOnAddBookClick}/>
+            {showBookForm &&
+                <BookForm
+                    onSubmit={handleOnSubmit}
+                    onFormClose={handleFormClose}
+                    options={options}
+                    authors={authors}
+                    isEditing={isEditing}
+                    currentBookEdited={currentBookEdited}
+                    currentEditedBookIndex={currentEditedBookIndex}
+                />}
             <DeleteConfirmation
                 onDelete={onItemDeleted}
                 show={showDeleteConfirmation}
