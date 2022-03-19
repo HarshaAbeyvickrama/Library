@@ -12,10 +12,9 @@ interface AuthorFormProps {
     onSubmit: (newAuthor: IAuthor) => void,
     isEditing: boolean,
     currentAuthorEdited: IAuthor | null,
-    authors: IAuthor[]
 }
 
-const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing, authors, currentAuthorEdited}) => {
+const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing, currentAuthorEdited}) => {
     const [currentAuthorName, setCurrentAuthorName] = useState<string>('');
     const [authorErrors, setAuthorErrors] = useState<IError>({authorError: ''})
     const [isSubmit, setIsSubmit] = useState(true);

@@ -14,19 +14,19 @@ interface AuthorSectionProps {
 
 const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) => {
     //Show from state
-    const [showForm, setShowForm] = useState<boolean>(false);
+    const [showAuthorForm, setShowAuthorForm] = useState<boolean>(false);
     const [currentAuthorEdited, setCurrentAuthorEdited] = useState<IAuthor>({authorName: ''});
     const [currentEditedAuthorIndex, setCurrentEditedAuthorIndex] = useState<number>(-1);
     const [isEditing, setIsEditing] = useState(false);
 
     //Add author button click handler
     const handleAddAuthorClick = () => {
-        setShowForm(!showForm);
+        setShowAuthorForm(!showAuthorForm);
     }
 
     //Form close handler
     const handleFormClose = () => {
-        setShowForm(!showForm);
+        setShowAuthorForm(!showAuthorForm);
     }
     //create author handler
     const handleOnSubmit = (newAuthor: IAuthor) => {
@@ -64,7 +64,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
         if (currentAuthorEdited.authorName === '') {
             return;
         }
-        setShowForm(true);
+        setShowAuthorForm(true);
     }, [currentAuthorEdited])
 
     return (
@@ -78,13 +78,12 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
                         onEditIconClicked={handleOnEditAuthorClicked}/>
             }
             <AddItem title={"Author"} onAddItemClick={handleAddAuthorClick}/>
-            {showForm &&
+            {showAuthorForm &&
                 <AuthorForm
                     onFormClose={handleFormClose}
                     onSubmit={handleOnSubmit}
                     isEditing={isEditing}
                     currentAuthorEdited={currentAuthorEdited}
-                    authors={authors}
                 />
             }
         </React.Fragment>

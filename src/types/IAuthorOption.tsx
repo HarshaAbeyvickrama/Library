@@ -1,4 +1,4 @@
 export interface IAuthorOption {
-    value: string,
+    value: number,
     label: string
 }
