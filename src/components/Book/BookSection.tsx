@@ -23,6 +23,9 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [currentBookTobeDeleted, setCurrentBookToBeDeleted] = useState<IBook | null>(null);
     const [currentBookIndexTobeDeleted, setCurrentBookIndexToBeDeleted] = useState<number>(-1);
+    const [currentEditedBookIndex , setCurrentEditedBookIndex ] = useState<number>(-1);
+    const [currentBookEdited , setCurrentBookEdited] = useState<IBook | null>(null);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
 
     //Book form close handler
     const handleFormClose = () => {
@@ -34,6 +37,13 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
     }
     //Create Book handler
     const handleOnSubmit = (newBook: IBook) => {
+        if(isEditing){
+            const newBookList = books;
+            newBookList.splice(currentEditedBookIndex, 1, newBook);
+            onSetBooks(newBookList);
+            setIsEditing(false);
+            return;
+        }
         const newBooks = [...books, newBook];
         onSetBooks(newBooks);
     }
@@ -41,6 +51,19 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
     const handleOnDeleteBook = (id: number) => {
         const newBooks = books.filter((book: IBook, index: number) => index !== id)
         onSetBooks(newBooks);
+    }
+    //Edit Book handler
+    const handleOnEditBookClicked = (id: number) => {
+        const editedBook = books.find((book, index) => {
+            return index === id;
+        })
+        if (editedBook === undefined) {
+            return;
+        }
+        setCurrentEditedBookIndex(id);
+        setIsEditing(true);
+        setCurrentBookEdited(editedBook);
+        setShowBookForm(true);
     }
     const onItemDeleted = () => {
         setShowDeleteConfirmation(false);
@@ -65,10 +88,12 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
         <React.Fragment>
             <SectionTitle title={"Books"}/>
             <Divider/>
-            {books.length ===0
+            {books.length === 0
                 ? <EmptyList sectionTitle={"Book"}/>
-                : <List items={books} onDeleteIconClicked={onBookDeleteClicked} onEditIconClicked={() => {
-                }}/>
+                : <List items={books}
+                        onDeleteIconClicked={onBookDeleteClicked}
+                        onEditIconClicked={handleOnEditBookClicked}
+                />
             }
             <AddItem title={"Book"} onAddItemClick={handleOnAddBookClick}/>
             {showBookForm &&
@@ -77,6 +102,9 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
                     onFormClose={handleFormClose}
                     options={options}
                     authors={authors}
+                    isEditing={isEditing}
+                    currentBookEdited={currentBookEdited}
+                    currentEditedBookIndex={currentEditedBookIndex}
                 />}
             <DeleteConfirmation
                 onDelete={onItemDeleted}

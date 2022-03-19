@@ -4,7 +4,6 @@ import FormTitle from "../Common/FormTitle";
 import InputField from "../Common/InputField";
 import CreateButton from "../Common/CreateButton";
 import {IAuthor} from "../../types/IAuthor";
-import Feedback from "react-bootstrap/Feedback";
 import {IError} from "../../types/IError";
 
 interface AuthorFormProps {

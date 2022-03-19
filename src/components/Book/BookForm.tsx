@@ -13,10 +13,13 @@ interface BookFormProps {
     onFormClose: () => void,
     options: IBook[],
     onSubmit: (newBook: IBook) => void,
-    authors: IAuthor[]
+    authors: IAuthor[],
+    isEditing: boolean,
+    currentBookEdited: IBook | null,
+    currentEditedBookIndex: number
 }
 
-const BookForm: React.FC<BookFormProps> = ({onFormClose, options,onSubmit,authors}) => {
+const BookForm: React.FC<BookFormProps> = ({onFormClose, options,onSubmit,authors,isEditing,currentBookEdited,currentEditedBookIndex}) => {
     const [currentBookTitle , setCurrentBookTitle] = useState<string>('');
     const [currentBookISBN , setCurrentBookISBN] = useState<string>('');
     const [currentBookAuthor , setCurrentBookAuthor] = useState<IAuthorOption | null>(null);
@@ -57,12 +60,23 @@ const BookForm: React.FC<BookFormProps> = ({onFormClose, options,onSubmit,author
         setAuthorOptions([
             ...newAuthorOptions
         ])
-    },[authors])
+    },[authors]);
+
+    useEffect(() => {
+        if (currentBookEdited) {
+            setCurrentBookTitle(currentBookEdited.title);
+            setCurrentBookISBN(currentBookEdited.ISBN);
+            setCurrentBookAuthor({
+                value: currentEditedBookIndex,
+                label: currentBookEdited.author.authorName
+            })
+        }
+    }, [currentBookEdited])
     return (
         <Row className="px-0 my-4 my-md-4 mx-0">
             <Form className="ps-0" onSubmit={handleOnBookFormSubmit}>
                 <Col xs={12} lg={9} md={10} className="px-0">
-                    <FormTitle name={"Book"} onFormClose={onFormClose}/>
+                    <FormTitle name={isEditing ? "Edit Book" : "Create Book"} onFormClose={onFormClose}/>
                     <InputField
                         title={"Title of the Book"}
                         name={"bookTitle"}
@@ -82,7 +96,7 @@ const BookForm: React.FC<BookFormProps> = ({onFormClose, options,onSubmit,author
                         onChange={handleOnBookAuthorChange}
                         currentSelectedAuthor={currentBookAuthor}
                     />
-                    <CreateButton title={"Create"}/>
+                    <CreateButton title={isEditing ? "Update" : "Create"}/>
                 </Col>
             </Form>
         </Row>

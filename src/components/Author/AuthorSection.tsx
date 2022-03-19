@@ -34,6 +34,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
             const newAuthorList = authors;
             newAuthorList.splice(currentEditedAuthorIndex, 1, newAuthor);
             onSetAuthors(newAuthorList);
+            setIsEditing(false);
             return;
         }
         const newAuthors = [...authors, newAuthor];
