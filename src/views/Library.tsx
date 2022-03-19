@@ -9,14 +9,8 @@ const Library: React.FC = () => {
     //Author list
     const [authors, setAuthors] = useState<IAuthor[]>([]);
     //Handle set authors function
-    const handleOnSetAuthors = (newAuthors :IAuthor[]) => {
-        setAuthors(newAuthors);
-    }
-
-    //Delete author handler
-    const handleOnDeleteAuthor = (id: number) => {
-        const newAuthors =authors.filter((author:IAuthor,index:number) => index !== id)
-        setAuthors(newAuthors);
+    const handleOnSetAuthors = (newAuthors: IAuthor[]) => {
+        setAuthors([...newAuthors]);
     }
 
     return (
@@ -34,7 +28,6 @@ const Library: React.FC = () => {
                     <AuthorSection
                         authors={authors}
                         onSetAuthors={handleOnSetAuthors}
-                        onDeleteAuthor={handleOnDeleteAuthor}
                     />
                 </Col>
             </Row>
