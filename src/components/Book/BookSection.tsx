@@ -23,29 +23,35 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [currentBookTobeDeleted, setCurrentBookToBeDeleted] = useState<IBook | null>(null);
     const [currentBookIndexTobeDeleted, setCurrentBookIndexToBeDeleted] = useState<number>(-1);
-    const [currentEditedBookIndex , setCurrentEditedBookIndex ] = useState<number>(-1);
-    const [currentBookEdited , setCurrentBookEdited] = useState<IBook | null>(null);
+    const [currentEditedBookIndex, setCurrentEditedBookIndex] = useState<number>(-1);
+    const [currentBookEdited, setCurrentBookEdited] = useState<IBook | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
-
+    const [successMessage, setSuccessMessage] = useState<string>('');
     //Book form close handler
     const handleFormClose = () => {
+        setIsEditing(false);
         setShowBookForm(!showBookForm);
     }
     //Add Book click handler
     const handleOnAddBookClick = () => {
         setShowBookForm(true);
+
     }
     //Create Book handler
     const handleOnSubmit = (newBook: IBook) => {
-        if(isEditing){
+        if (isEditing) {
             const newBookList = books;
             newBookList.splice(currentEditedBookIndex, 1, newBook);
             onSetBooks(newBookList);
             setIsEditing(false);
+            setSuccessMessage("Book Updated Successfully!");
+            setShowSuccessAlert(true);
             return;
         }
         const newBooks = [...books, newBook];
         onSetBooks(newBooks);
+        setSuccessMessage("Book Created Successfully!");
+        setShowSuccessAlert(true);
     }
     //Delete book handler
     const handleOnDeleteBook = (id: number) => {
@@ -68,6 +74,7 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
     const onItemDeleted = () => {
         setShowDeleteConfirmation(false);
         handleOnDeleteBook(currentBookIndexTobeDeleted);
+        setSuccessMessage("Book Deleted Successfully!");
         setShowSuccessAlert(true);
     }
     const onBookDeleteClicked = (bookIndexToBeDeleted: number) => {
@@ -95,7 +102,10 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
                         onEditIconClicked={handleOnEditBookClicked}
                 />
             }
-            <AddItem title={"Book"} onAddItemClick={handleOnAddBookClick}/>
+            <AddItem
+                title={"Book"}
+                onAddItemClick={handleOnAddBookClick}
+            />
             {showBookForm &&
                 <BookForm
                     onSubmit={handleOnSubmit}
@@ -116,9 +126,8 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
             <SuccessTimeoutAlert
                 show={showSuccessAlert}
                 setShow={setShowSuccessAlert}
-                message={"Book"}
-                title={"Book Deleted Successfully!"}
-                timeout={1500}
+                title={successMessage}
+                timeout={1000}
             />
 
         </React.Fragment>
