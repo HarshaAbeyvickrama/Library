@@ -7,9 +7,10 @@ import {IAuthor} from "../types/IAuthor";
 
 const Library: React.FC = () => {
     //Author list
-    const [authors, setAuthors] = useState<IAuthor[] | null>(null);
-    const handleOnSetAuthors = (newAuthors :IAuthor[] | null) => {
-        setAuthors(newAuthors);
+    const [authors, setAuthors] = useState<IAuthor[]>([]);
+    //Handle set authors function
+    const handleOnSetAuthors = (newAuthors: IAuthor[]) => {
+        setAuthors([...newAuthors]);
     }
 
     return (
@@ -24,7 +25,10 @@ const Library: React.FC = () => {
                 </Col>
                 <Col lg={{order: 2, span: 6}} md={{order: 1, span: 12}} xs={{order: 1, span: 12}}
                      className="px-md-5 p-3">
-                    <AuthorSection authors={authors} onSetAuthors={handleOnSetAuthors}/>
+                    <AuthorSection
+                        authors={authors}
+                        onSetAuthors={handleOnSetAuthors}
+                    />
                 </Col>
             </Row>
         </Container>
