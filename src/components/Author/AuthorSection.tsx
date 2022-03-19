@@ -42,6 +42,8 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
             newAuthorList.splice(currentEditedAuthorIndex, 1, newAuthor);
             onSetAuthors(newAuthorList);
             setIsEditing(false);
+            setSuccessMessage("Author Updated Successfully!");
+            setShowSuccessAlert(true);
             return;
         }
         const newAuthors = [...authors, newAuthor];
