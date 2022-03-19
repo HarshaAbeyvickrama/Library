@@ -19,17 +19,21 @@ interface BookFormProps {
 const BookForm: React.FC<BookFormProps> = ({onFormClose, options,onSubmit,authors}) => {
     const [currentBookTitle , setCurrentBookTitle] = useState<string>('');
     const [currentBookISBN , setCurrentBookISBN] = useState<string>('');
-    const [currentBookAuthor , setCurrentBookAuthor] = useState<IAuthorOption>({label: "", value: -1});
+    const [currentBookAuthor , setCurrentBookAuthor] = useState<IAuthorOption | null>(null);
     const [bookErrors , setBookErrors ] = useState<IError>({bookTitleError:'',ISBNError:''});
     const [authorOptions , setAuthorOptions ] = useState<IAuthorOption[]>([]);
+
     //Book from submit handler
     const handleOnBookFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSubmit({
             title:currentBookTitle,
             ISBN:currentBookISBN,
-            author: {authorName:currentBookAuthor.label}
-        })
+            author: currentBookAuthor ? {authorName:currentBookAuthor.label} : {authorName:''}
+        });
+        setCurrentBookTitle('');
+        setCurrentBookISBN('');
+        setCurrentBookAuthor(null);
     }
 
     //Field value change handlers
@@ -76,6 +80,7 @@ const BookForm: React.FC<BookFormProps> = ({onFormClose, options,onSubmit,author
                     <SelectDropdown
                         options={authorOptions}
                         onChange={handleOnBookAuthorChange}
+                        currentSelectedAuthor={currentBookAuthor}
                     />
                     <CreateButton title={"Create"}/>
                 </Col>

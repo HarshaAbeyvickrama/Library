@@ -16,12 +16,13 @@ interface bookSectionProps {
     authors: IAuthor[]
 }
 
-const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks,authors}) => {
+const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) => {
     //show form state
     const [showBookForm, setShowBookForm] = useState(false);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [currentBookTobeDeleted, setCurrentBookToBeDeleted] = useState<IBook | null>(null);
+    const [currentBookIndexTobeDeleted, setCurrentBookIndexToBeDeleted] = useState<number>(-1);
 
     //Book form close handler
     const handleFormClose = () => {
@@ -32,19 +33,25 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks,authors}) =>
         setShowBookForm(true);
     }
     //Create Book handler
-    const handleOnSubmit =(newBook: IBook) => {
-        // console.log(newBook)
-        const newBooks = [...books,newBook];
+    const handleOnSubmit = (newBook: IBook) => {
+        const newBooks = [...books, newBook];
+        onSetBooks(newBooks);
+    }
+    //Delete book handler
+    const handleOnDeleteBook = (id: number) => {
+        const newBooks = books.filter((book: IBook, index: number) => index !== id)
         onSetBooks(newBooks);
     }
     const onItemDeleted = () => {
         setShowDeleteConfirmation(false);
+        handleOnDeleteBook(currentBookIndexTobeDeleted);
         setShowSuccessAlert(true);
     }
     const onBookDeleteClicked = (bookIndexToBeDeleted: number) => {
         books.forEach((book: IBook, index) => {
             if (index === bookIndexToBeDeleted) {
                 setCurrentBookToBeDeleted(book);
+                setCurrentBookIndexToBeDeleted(bookIndexToBeDeleted);
             }
         })
         setShowDeleteConfirmation(true);
@@ -54,12 +61,11 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks,authors}) =>
         {value: index, label: book.title}
     ));
 
-
     return (
         <React.Fragment>
             <SectionTitle title={"Books"}/>
             <Divider/>
-            {!books
+            {books.length ===0
                 ? <EmptyList sectionTitle={"Book"}/>
                 : <List items={books} onDeleteIconClicked={onBookDeleteClicked} onEditIconClicked={() => {
                 }}/>
