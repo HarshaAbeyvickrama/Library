@@ -42,6 +42,8 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
             newBookList.splice(currentEditedBookIndex, 1, newBook);
             onSetBooks(newBookList);
             setIsEditing(false);
+            setSuccessMessage("Book Updated Successfully!");
+            setShowSuccessAlert(true);
             return;
         }
         const newBooks = [...books, newBook];
