@@ -95,7 +95,10 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
                         onEditIconClicked={handleOnEditBookClicked}
                 />
             }
-            <AddItem title={"Book"} onAddItemClick={handleOnAddBookClick}/>
+            <AddItem
+                title={"Book"}
+                onAddItemClick={handleOnAddBookClick}
+            />
             {showBookForm &&
                 <BookForm
                     onSubmit={handleOnSubmit}
