@@ -1,11 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import App from './App';
+import {BrowserRouter as Router , Route , Routes} from "react-router-dom";
+import Library from "./views/Library";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+   <Router>
+       <Routes>
+           <Route path="/" element={<Library />} />
+           <Route path="/about" element={"About"} />
+           <Route path="/contact" element={"Contact"} />
+           <Route path="*" element={"404"} />
+       </Routes>
+   </Router>,
+    document.getElementById('root')
 );
