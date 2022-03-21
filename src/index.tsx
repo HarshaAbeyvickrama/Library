@@ -5,6 +5,7 @@ import {BrowserRouter as Router , Route , Routes} from "react-router-dom";
 import Library from "./views/Library";
 import Header from "./components/Navigation/Header";
 import Four0Four from "./components/Four0Four";
+import Footer from "./components/Navigation/Footer";
 
 ReactDOM.render(
    <Router>
@@ -15,6 +16,7 @@ ReactDOM.render(
            <Route path="/contact" element={"Contact"} />
            <Route path="*" element={<Four0Four />} />
        </Routes>
+       <Footer />
    </Router>,
     document.getElementById('root')
 );
