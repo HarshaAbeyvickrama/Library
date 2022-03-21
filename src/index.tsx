@@ -3,16 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import {BrowserRouter as Router , Route , Routes} from "react-router-dom";
 import Library from "./views/Library";
-import Navigation from "./components/Navigation/Navigation";
+import Header from "./components/Navigation/Header";
+import Four0Four from "./components/Four0Four";
 
 ReactDOM.render(
    <Router>
-       <Navigation />
+       <Header />
        <Routes>
            <Route path="/" element={<Library />} />
            <Route path="/about" element={"About"} />
            <Route path="/contact" element={"Contact"} />
-           <Route path="*" element={"404"} />
+           <Route path="*" element={<Four0Four />} />
        </Routes>
    </Router>,
     document.getElementById('root')

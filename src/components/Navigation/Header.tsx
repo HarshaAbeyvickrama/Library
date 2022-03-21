@@ -1,7 +1,7 @@
 import React from "react";
 import {Container, Nav, Navbar, NavbarBrand , NavLink} from "react-bootstrap";
 
-const Navigation : React.FC = () => {
+const Header : React.FC = () => {
     return(
         <Navbar bg="dark" variant="dark" className="px-0 mx-0 py-3 justify-content-center" sticky="top">
             <Container className="mx-0 px-0">
@@ -16,4 +16,4 @@ const Navigation : React.FC = () => {
     )
 }
 
-export default Navigation;
+export default Header;
