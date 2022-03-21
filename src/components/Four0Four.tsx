@@ -3,7 +3,6 @@ import logo from '../assets/img/404.gif';
 
 const Four0Four: React.FC = () => {
     return (
-        <body>
         <section className="overviewLayout">
             <div className="contentSection">
                 <div className="center">
@@ -15,7 +14,6 @@ const Four0Four: React.FC = () => {
                 </div>
             </div>
         </section>
-        </body>
     )
 }
 
