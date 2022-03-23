@@ -7,7 +7,6 @@ import List from "../Common/List";
 import AddItem from "../Common/AddItem";
 import AuthorForm from "./AuthorForm";
 import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
-import {IBook} from "../../types/IBook";
 import DeleteConfirmation from "../Alerts/DeleteConfirmation";
 
 interface AuthorSectionProps {
@@ -16,21 +15,16 @@ interface AuthorSectionProps {
 }
 
 const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) => {
-    //Show from state
+
     const [showAuthorForm, setShowAuthorForm] = useState<boolean>(false);
     const [currentAuthorEdited, setCurrentAuthorEdited] = useState<IAuthor | null>({authorName: ''});
     const [currentEditedAuthorIndex, setCurrentEditedAuthorIndex] = useState<number>(-1);
     const [currentAuthorTobeDeleted, setCurrentAuthorToBeDeleted] = useState<IAuthor | null>(null);
     const [currentAuthorIndexTobeDeleted, setCurrentAuthorIndexToBeDeleted] = useState<number>(-1);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false);
     const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false);
     const [successMessage, setSuccessMessage] = useState<string>('');
-
-    //Add author button click handler
-    const handleAddAuthorClick = () => {
-        setShowAuthorForm(!showAuthorForm);
-    }
 
     //Form close handler
     const handleFormClose = () => {
@@ -38,6 +32,12 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
         setShowAuthorForm(!showAuthorForm);
         setCurrentAuthorEdited(null);
     }
+
+    //Add author button click handler
+    const handleAddAuthorClick = () => {
+        setShowAuthorForm(!showAuthorForm);
+    }
+
     //create author handler
     const handleOnSubmit = (newAuthor: IAuthor) => {
         if (isEditing) {
@@ -54,7 +54,8 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
         setSuccessMessage("Author Created Successfully!");
         setShowSuccessAlert(true);
     }
-    //Delete author handler
+
+    //On Delete author icon clicked handler
     const onAuthorDeleteClicked = (authorIndexToBeDeleted: number) => {
         authors.forEach((author: IAuthor, index) => {
             if (index === authorIndexToBeDeleted) {
@@ -64,19 +65,22 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
         })
         setShowDeleteConfirmation(true);
     }
-    const handleOnDeleteAuthor = (id: number) => {
+
+    //On Book deleted confirmed Handler
+    const onAuthorDeleteConfirmed = () => {
+        setShowDeleteConfirmation(false);
+        deleteAuthor(currentAuthorIndexTobeDeleted);
+    }
+
+    //Delete author handler
+    const deleteAuthor = (id: number) => {
         const newAuthors = authors.filter((author: IAuthor, index: number) => index !== id)
         onSetAuthors(newAuthors);
         setSuccessMessage("Author Deleted Successfully!");
         setShowSuccessAlert(true);
     }
-    const onAuthorDeleted = () => {
-        setShowDeleteConfirmation(false);
-        handleOnDeleteAuthor(currentAuthorIndexTobeDeleted);
-        setShowSuccessAlert(true);
-        setSuccessMessage("Author Deleted Successfully!");
-    }
-    //Edit author handler
+
+    //Edit author icon clicked handler
     const handleOnEditAuthorClicked = (id: number) => {
         const editedAuthor = authors.find((author, index) => {
             return index === id;
@@ -86,8 +90,8 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
         }
         setCurrentEditedAuthorIndex(id);
         setIsEditing(true);
-        setShowAuthorForm(true);
         setCurrentAuthorEdited(editedAuthor);
+        setShowAuthorForm(true);
     }
 
     useEffect(() => {
@@ -118,7 +122,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
                 />
             }
             <DeleteConfirmation
-                onDelete={onAuthorDeleted}
+                onDelete={onAuthorDeleteConfirmed}
                 show={showDeleteConfirmation}
                 setShow={setShowDeleteConfirmation}
                 title={

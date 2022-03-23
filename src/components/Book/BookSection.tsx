@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {FC, useState} from "react";
 import SectionTitle from "../Common/SectionTitle";
 import Divider from "../Common/Divider";
 import EmptyList from "../Common/EmptyList";
@@ -16,10 +16,10 @@ interface bookSectionProps {
     authors: IAuthor[]
 }
 
-const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) => {
-    //show form state
-    const [showBookForm, setShowBookForm] = useState(false);
-    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+const BookSection: FC<bookSectionProps> = ({books, onSetBooks, authors}) => {
+
+    const [showBookForm, setShowBookForm] = useState<boolean>(false);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [currentBookTobeDeleted, setCurrentBookToBeDeleted] = useState<IBook | null>(null);
     const [currentBookIndexTobeDeleted, setCurrentBookIndexToBeDeleted] = useState<number>(-1);
@@ -27,18 +27,19 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
     const [currentBookEdited, setCurrentBookEdited] = useState<IBook | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [successMessage, setSuccessMessage] = useState<string>('');
+
     //Book form close handler
     const handleFormClose = () => {
         setIsEditing(false);
         setShowBookForm(!showBookForm);
         setCurrentBookEdited(null);
     }
-    //Add Book click handler
+
+    //Add Book button click handler
     const handleOnAddBookClick = () => {
         setShowBookForm(true);
-        setIsEditing(false);
-
     }
+
     //Create Book handler
     const handleOnSubmit = (newBook: IBook) => {
         if (isEditing) {
@@ -55,12 +56,32 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
         setSuccessMessage("Book Created Successfully!");
         setShowSuccessAlert(true);
     }
+
+    //On Delete book icon clicked handler
+    const onBookDeleteClicked = (bookIndexToBeDeleted: number) => {
+        books.forEach((book: IBook, index) => {
+            if (index === bookIndexToBeDeleted) {
+                setCurrentBookToBeDeleted(book);
+                setCurrentBookIndexToBeDeleted(bookIndexToBeDeleted);
+            }
+        })
+        setShowDeleteConfirmation(true);
+    }
+
+    //On Book deleted confirmed Handler
+    const onBookDeleteConfirmed = () => {
+        setShowDeleteConfirmation(false);
+        deleteBook(currentBookIndexTobeDeleted);
+    }
     //Delete book handler
-    const handleOnDeleteBook = (id: number) => {
+    const deleteBook = (id: number) => {
         const newBooks = books.filter((book: IBook, index: number) => index !== id)
         onSetBooks(newBooks);
+        setSuccessMessage("Book Deleted Successfully!");
+        setShowSuccessAlert(true);
     }
-    //Edit Book handler
+
+    //Edit Book icon clicked handler
     const handleOnEditBookClicked = (id: number) => {
         const editedBook = books.find((book, index) => {
             return index === id;
@@ -73,21 +94,7 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
         setCurrentBookEdited(editedBook);
         setShowBookForm(true);
     }
-    const onItemDeleted = () => {
-        setShowDeleteConfirmation(false);
-        handleOnDeleteBook(currentBookIndexTobeDeleted);
-        setSuccessMessage("Book Deleted Successfully!");
-        setShowSuccessAlert(true);
-    }
-    const onBookDeleteClicked = (bookIndexToBeDeleted: number) => {
-        books.forEach((book: IBook, index) => {
-            if (index === bookIndexToBeDeleted) {
-                setCurrentBookToBeDeleted(book);
-                setCurrentBookIndexToBeDeleted(bookIndexToBeDeleted);
-            }
-        })
-        setShowDeleteConfirmation(true);
-    }
+
     //options for react select
     const options = books.filter((book, index) => (
         {value: index, label: book.title}
@@ -112,7 +119,6 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
                 <BookForm
                     onSubmit={handleOnSubmit}
                     onFormClose={handleFormClose}
-                    options={options}
                     authors={authors}
                     isEditing={isEditing}
                     currentBookEdited={currentBookEdited}
@@ -120,7 +126,7 @@ const BookSection: React.FC<bookSectionProps> = ({books, onSetBooks, authors}) =
                     books={books}
                 />}
             <DeleteConfirmation
-                onDelete={onItemDeleted}
+                onDelete={onBookDeleteConfirmed}
                 show={showDeleteConfirmation}
                 setShow={setShowDeleteConfirmation}
                 title={"Delete Book " + currentBookTobeDeleted?.title + "?"}

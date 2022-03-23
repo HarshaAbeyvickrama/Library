@@ -1,11 +1,11 @@
-import React from "react";
+import React, {FC} from "react";
 import WelcomeImage from "../../assets/img/hero.jpg";
 
-const Welcome: React.FC = () => {
+const Welcome: FC = () => {
     return (
         <React.Fragment>
             <h1 className="page-title py-2 fs-">My Library</h1>
-            <img src={WelcomeImage} className="img-fluid" alt="hero-image"/>
+            <img src={WelcomeImage} className="img-fluid" alt="hero"/>
             <h5 className="photo-credits pe-md-5 pe-2 py-md-1 py-1">
                 Photo by
                 <a
