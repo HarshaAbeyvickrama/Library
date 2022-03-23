@@ -10,7 +10,7 @@ const Library: React.FC = () => {
     //Author list
     const [authors, setAuthors] = useState<IAuthor[]>([]);
     //Book List
-    const [books , setBooks] = useState<IBook[]>([]);
+    const [books, setBooks] = useState<IBook[]>([]);
     //Handle set authors function
     const handleOnSetAuthors = (newAuthors: IAuthor[]) => {
         setAuthors([...newAuthors]);
