@@ -1,7 +1,6 @@
 import React from 'react';
 import {Col} from "react-bootstrap";
 import Feedback from "react-bootstrap/Feedback";
-import {IError} from "../../types/IError";
 
 interface InputFieldProps {
     title: string,
@@ -25,16 +24,7 @@ const InputField: React.FC<InputFieldProps> = ({title, name, value, onChange, er
                     borderColor: errorMessage ? '#dc3545' : '',
                 }}
             />
-            <Feedback
-                type="invalid"
-                className="feedback-error"
-                style={{
-                    display: errorMessage ? 'block' : 'none',
-                    fontWeight: 500,
-                }}
-            />
-            {errorMessage}
-            <Feedback/>
+            <span className="error-message fw-500">{errorMessage}</span>
         </Col>
 
     );
