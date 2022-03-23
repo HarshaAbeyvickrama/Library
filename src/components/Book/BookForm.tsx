@@ -11,7 +11,6 @@ import {IAuthorOption} from "../../types/IAuthorOption";
 
 interface BookFormProps {
     onFormClose: () => void,
-    options: IBook[],
     onSubmit: (newBook: IBook) => void,
     authors: IAuthor[],
     isEditing: boolean,
@@ -22,7 +21,6 @@ interface BookFormProps {
 
 const BookForm: React.FC<BookFormProps> = ({
                                                onFormClose,
-                                               options,
                                                onSubmit,
                                                authors,
                                                isEditing,
