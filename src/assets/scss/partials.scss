@@ -6,5 +6,13 @@
 @import "partials/common/inputField";
 @import "partials/common/formTitle";
 @import "partials/common/divider";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Raleway", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 @import "partials/common/selectDropdown";
 @import "partials/common/404";
