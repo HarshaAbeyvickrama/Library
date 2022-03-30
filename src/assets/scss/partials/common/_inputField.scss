@@ -7,6 +7,7 @@
     outline: none;
     border-color: #969696;
     box-shadow: none !important;
+    margin-bottom: 0px !important;
 
     &:focus {
       border-color: #969696;
@@ -14,12 +15,12 @@
   }
 
   span {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     padding-left: 4px;
   }
 }
 
-.error-message{
+.error-message {
   color: #dc3545;
   font-size: 18px;
 }

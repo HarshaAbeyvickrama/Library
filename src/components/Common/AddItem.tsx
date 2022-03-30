@@ -8,11 +8,10 @@ interface SectionTitleProps {
 }
 
 const AddItem: React.FC<SectionTitleProps> = ({title, onAddItemClick}) => {
-
     return (
         <Row className="mt-0 px-0">
             <Col className="d-inline-flex align-items-center add-item mb" onClick={onAddItemClick}>
-                <Plus className="add-icon d-inline-block pe-sm-1"/>
+                <Plus className="add-icon d-inline-block pe-sm-1"   size={35}/>
                 <span className="add-item-text">Add {title}</span>
             </Col>
         </Row>

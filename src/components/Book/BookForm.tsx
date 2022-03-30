@@ -119,7 +119,7 @@ const BookForm: React.FC<BookFormProps> = ({
     return (
         <Row className="px-0 my-4 my-md-4 mx-0">
             <Form className="ps-0" onSubmit={handleOnBookFormSubmit}>
-                <Col xs={12} lg={9} md={10} className="px-0">
+                <Col lg={12} xl={9}  className="px-0">
                     <FormTitle name={isEditing ? "Edit Book" : "Create Book"} onFormClose={handleFormClose}/>
                     <InputField
                         title={"Title of the Book"}
