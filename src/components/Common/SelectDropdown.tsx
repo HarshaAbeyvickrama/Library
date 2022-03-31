@@ -11,7 +11,19 @@ interface SelectDropdownProps {
 }
 
 const SelectDropdown: React.FC<SelectDropdownProps> = ({title, options, onChange, currentSelectedAuthor}) => {
-
+    const customStyles = {
+        indicatorSeparator: (provided: any, state: any) => ({
+            ...provided,
+            paddingLeft: '1px !important',
+        }),
+        control: (provided: any, state: any) => ({
+            ...provided,
+            boxShadow: '0px',
+            borderColor: '#969696 !important',
+            borderRadius: '0px',
+            borderWidth: '2px',
+        })
+    }
     return (
         <Col className="input-field my-2 ms-lg-4">
             <span>{title}</span>
@@ -21,6 +33,7 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({title, options, onChange
                 value={currentSelectedAuthor}
                 options={options}
                 onChange={onChange}
+                styles={customStyles}
             />
         </Col>
 

@@ -14,16 +14,18 @@ interface AuthorFormProps {
     authors: IAuthor[]
 }
 
-const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing, currentAuthorEdited,authors}) => {
+const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing, currentAuthorEdited, authors}) => {
     const [currentAuthorName, setCurrentAuthorName] = useState<string>('');
     const [authorErrors, setAuthorErrors] = useState<IError | null>(null)
     const [isSubmit, setIsSubmit] = useState(false);
+    const [isValidated, setIsValidated] = useState(false);
+
 
     useEffect(() => {
-        if(currentAuthorEdited === null){
+        if (currentAuthorEdited === null) {
             handleClearFields();
         }
-    },[currentAuthorEdited])
+    }, [currentAuthorEdited])
 
     const handleOnAuthorFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,11 +33,11 @@ const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing
 
     }
     useEffect(() => {
-        if(!authorErrors && isSubmit){
+        if (!authorErrors && isSubmit) {
             onSubmit({authorName: currentAuthorName});
             handleClearFields();
         }
-    },[isSubmit,authorErrors])
+    }, [isSubmit, authorErrors])
 
     //Clear fields
     const handleClearFields = () => {
@@ -76,8 +78,8 @@ const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing
     }
     return (
         <Row className="px-0 mt-4 mb-2 mx-0">
-            <Form className="ps-0" onSubmit={handleOnAuthorFormSubmit}>
-                <Col xs={12} lg={9} className="px-0">
+            <Form className="ps-0" onSubmit={handleOnAuthorFormSubmit} noValidate validated={isValidated}>
+                <Col lg={12} xl={9} className="px-0">
                     <FormTitle name={isEditing ? "Edit Author" : "Create Author"} onFormClose={handleFormClose}/>
                     <InputField
                         title={"Name of Author"}

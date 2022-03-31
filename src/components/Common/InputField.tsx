@@ -1,6 +1,5 @@
 import React from 'react';
 import {Col} from "react-bootstrap";
-import Feedback from "react-bootstrap/Feedback";
 
 interface InputFieldProps {
     title: string,
@@ -12,7 +11,7 @@ interface InputFieldProps {
 
 const InputField: React.FC<InputFieldProps> = ({title, name, value, onChange, errorMessage}) => {
     return (
-        <Col className="input-field my-2 ms-lg-4">
+        <Col className="input-field mt-0 mb-2 ms-lg-4">
             <span>{title}</span>
             <input
                 className="form-control mt-1"
@@ -20,11 +19,7 @@ const InputField: React.FC<InputFieldProps> = ({title, name, value, onChange, er
                 name={name}
                 value={value}
                 onChange={onChange}
-                style={{
-                    borderColor: errorMessage ? '#dc3545' : '',
-                }}
             />
-            <span className="error-message fw-500">{errorMessage}</span>
         </Col>
 
     );

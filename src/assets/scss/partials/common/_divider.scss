@@ -1,5 +1,10 @@
 .divider {
   color: #2E3235;
   opacity: 1;
-  height: 3px !important;
+  height: 2px !important;
+
+  @media only screen and (max-width: 600px){
+    height: 2px !important;
+    margin-top: 2px !important;
+  }
 }

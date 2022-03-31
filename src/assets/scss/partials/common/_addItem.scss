@@ -2,6 +2,7 @@
   color: #0F469D;
   display: inline-block;
   opacity: 1;
+  font-size: 2rem;
 }
 
 .add-item {
@@ -13,5 +14,15 @@
 
   &:hover {
     cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .add-icon {
+    width: 25px;
+    height: 25px;
+  }
+  .add-item-text{
+    font-size: 1.1rem !important;
   }
 }
