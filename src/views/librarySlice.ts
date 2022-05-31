@@ -30,28 +30,8 @@ const librarySlice = createSlice({
         setBooks: (state, action: PayloadAction<IBook[]>) => {
             state.books = action.payload;
         },
-        setSuccessMessage: (state, action: PayloadAction<string>) => {
-            state.successMessage = action.payload;
-        },
-        setSuccessAlertVisibility: (state, action: PayloadAction<boolean>) => {
-            state.successAlertVisible = action.payload;
-        },
-        setDeleteMessage: (state, action: PayloadAction<string>) => {
-            state.deleteMessage = action.payload;
-        },
-        setDeleteAlertVisibility: (state, action: PayloadAction<boolean>) => {
-            state.deleteConfirmationVisible = action.payload;
-        }
     }
 });
 
-export const {
-    setAuthors,
-    setBooks,
-    setSuccessMessage,
-    setSuccessAlertVisibility,
-    setDeleteAlertVisibility,
-    setDeleteMessage
-} =
-    librarySlice.actions;
+export const {setAuthors, setBooks,} = librarySlice.actions;
 export default librarySlice.reducer;

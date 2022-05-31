@@ -1,29 +1,22 @@
-import React, {useEffect, useState} from "react";
-import SectionTitle from "../../components/Common/SectionTitle";
-import Divider from "../../components/Common/Divider";
+import React, {useState} from "react";
+import SectionTitle from "../Common/SectionTitle";
+import Divider from "../Common/Divider";
 import {IAuthor} from "../../types/IAuthor";
-import EmptyList from "../../components/Common/EmptyList";
-import List from "../../components/Common/List";
-import AddItem from "../../components/Common/AddItem";
-import AuthorForm from "../../components/Author/AuthorForm";
-import SuccessTimeoutAlert from "../../components/Alerts/SuccessTimeoutAlert";
-import DeleteConfirmation from "../../components/Alerts/DeleteConfirmation";
-// import {hideAuthorForm, showAuthorForm} from "./authorSectionSlice";
-// import {
-//     setAuthors,
-//     setDeleteAlertVisibility,
-//     setDeleteMessage,
-//     setSuccessAlertVisibility,
-//     setSuccessMessage
-// } from '../../views/librarySlice';
-
+import EmptyList from "../Common/EmptyList";
+import List from "../Common/List";
+import AddItem from "../Common/AddItem";
+import AuthorForm from "./AuthorForm";
+import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
+import DeleteConfirmation from "../Alerts/DeleteConfirmation";
+import {useAppDispatch, useAppSelector} from "../../store/common/hooks";
+import {setAuthors} from "../../views/librarySlice";
 
 interface AuthorSectionProps {
     authors: IAuthor[],
     onSetAuthors: (newAuthors: IAuthor[]) => void,
 }
 
-const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) => {
+const AuthorSection: React.FC<AuthorSectionProps> = ({onSetAuthors}) => {
 
     const [showAuthorForm, setShowAuthorForm] = useState<boolean>(false);
     const [currentAuthorEdited, setCurrentAuthorEdited] = useState<IAuthor | null>({authorName: ''});
@@ -36,37 +29,36 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
     const [successMessage, setSuccessMessage] = useState<string>('');
 
     //Redux
-    // const dispatch = useAppDispatch();
-    // const isAuthorFormVisible = useAppSelector(state => state.authorSection.showAuthorForm);
-    // const isDeleteAlertVisible = useAppSelector(state => state.library.deleteConfirmationVisible);
-    // const authors = useAppSelector(state => state.library.authors);
+    const dispatch = useAppDispatch();
+    const authors = useAppSelector(state => state.library.authors);
 
     //Form close handler
     const handleFormClose = () => {
         setIsEditing(false);
-        setShowAuthorForm(!showAuthorForm);
+        setShowAuthorForm(false);
         setCurrentAuthorEdited(null);
+        setCurrentEditedAuthorIndex(-1);
     }
 
     //Add author button click handler
     const handleAddAuthorClick = () => {
-        // dispatch(showAuthorForm());
         setShowAuthorForm(!showAuthorForm);
     }
 
     //create author handler
     const handleOnSubmit = (newAuthor: IAuthor) => {
         if (isEditing) {
-            const newAuthorList = authors;
+            const newAuthorList = [...authors];
             newAuthorList.splice(currentEditedAuthorIndex, 1, newAuthor);
-            onSetAuthors(newAuthorList);
+            dispatch(setAuthors(newAuthorList));
             setIsEditing(false);
             setSuccessMessage("Author Updated Successfully!");
             setShowSuccessAlert(true);
+            setShowAuthorForm(false);
             return;
         }
         const newAuthors = [...authors, newAuthor];
-        onSetAuthors(newAuthors);
+        dispatch(setAuthors(newAuthors));
         setSuccessMessage("Author Created Successfully!");
         setShowSuccessAlert(true);
     }
@@ -91,7 +83,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
     //Delete author handler
     const deleteAuthor = (id: number) => {
         const newAuthors = authors.filter((author: IAuthor, index: number) => index !== id)
-        onSetAuthors(newAuthors);
+        dispatch(setAuthors(newAuthors));
         setSuccessMessage("Author Deleted Successfully!");
         setShowSuccessAlert(true);
     }
@@ -109,13 +101,6 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({authors, onSetAuthors}) =>
         setCurrentAuthorEdited(editedAuthor);
         setShowAuthorForm(true);
     }
-
-    useEffect(() => {
-        if (currentAuthorEdited?.authorName === '') {
-            return;
-        }
-        setShowAuthorForm(true);
-    }, [currentAuthorEdited])
 
     return (
         <React.Fragment>
