@@ -1,22 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import {BrowserRouter as Router , Route , Routes} from "react-router-dom";
-import Library from "./views/Library";
-import Header from "./components/Navigation/Header";
-import Four0Four from "./components/Four0Four";
-import Footer from "./components/Navigation/Footer";
-import About from "./components/About/About";
+import App from "./App";
+import store from "./store";
+import {Provider} from "react-redux";
 
 ReactDOM.render(
-   <Router>
-       <Header />
-       <Routes>
-           <Route path="/" element={<Library />} />
-           <Route path="/about" element={<About />} />
-           <Route path="*" element={<Four0Four />} />
-       </Routes>
-       <Footer />
-   </Router>,
+    <Provider store={store}>
+        <App/>
+    </Provider>,
     document.getElementById('root')
 );

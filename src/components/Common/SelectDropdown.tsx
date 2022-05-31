@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import Select from "react-select";
 import {IAuthorOption} from "../../types/IAuthorOption";
 import {Col} from "react-bootstrap";
@@ -7,10 +7,20 @@ interface SelectDropdownProps {
     options: IAuthorOption[],
     onChange: (e: any) => void,
     currentSelectedAuthor: IAuthorOption | null,
-    title: string
+    title: string,
+    errorMessage?: string
 }
 
-const SelectDropdown: React.FC<SelectDropdownProps> = ({title, options, onChange, currentSelectedAuthor}) => {
+const SelectDropdown: React.FC<SelectDropdownProps> = (
+    {
+        title,
+        options,
+        onChange,
+        currentSelectedAuthor,
+        errorMessage
+    }) => {
+
+    //styled for react select
     const customStyles = {
         indicatorSeparator: (provided: any, state: any) => ({
             ...provided,
@@ -19,11 +29,12 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({title, options, onChange
         control: (provided: any, state: any) => ({
             ...provided,
             boxShadow: '0px',
-            borderColor: '#969696 !important',
+            borderColor: errorMessage ? 'red' : '#969696 !important',
             borderRadius: '0px',
             borderWidth: '2px',
         })
     }
+
     return (
         <Col className="input-field my-2 ms-lg-4">
             <span>{title}</span>
@@ -35,6 +46,7 @@ const SelectDropdown: React.FC<SelectDropdownProps> = ({title, options, onChange
                 onChange={onChange}
                 styles={customStyles}
             />
+            {errorMessage && <span className="text-danger">{errorMessage}</span>}
         </Col>
 
     );

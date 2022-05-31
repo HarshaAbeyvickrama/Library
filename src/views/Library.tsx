@@ -1,8 +1,8 @@
-import React, {useState, FC} from "react";
+import React, {FC, useState} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import Welcome from "../components/Welcome/Welcome";
-import AuthorSection from "../components/Author/AuthorSection";
-import BookSection from "../components/Book/BookSection";
+import AuthorSection from "../features/Author/AuthorSection";
+import BookSection from "../features/Book/BookSection";
 import {IAuthor} from "../types/IAuthor";
 import {IBook} from "../types/IBook";
 
