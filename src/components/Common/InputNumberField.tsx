@@ -1,29 +1,31 @@
 import React from 'react';
 import {Col} from "react-bootstrap";
+import NumberFormat from 'react-number-format';
 
-interface InputFieldProps {
+interface InputNumberFieldProps {
     title: string,
     name: string,
     value: string,
-    onChange: (e: any) => void,
+    onChange: (values: any, sourceInfo: any) => void,
     errorMessage?: string
 }
 
-const InputField: React.FC<InputFieldProps> = ({title, name, value, onChange, errorMessage}) => {
+const InputNumberField: React.FC<InputNumberFieldProps> = ({title, name, value, onChange, errorMessage}) => {
     return (
         <Col className="input-field mt-0 mb-2 ms-lg-4">
             <span>{title}</span>
-            <input
-                className="form-control mt-1"
-                type="text"
-                name={name}
+            <NumberFormat
+                width='100%'
+                thousandSeparator={true}
+                onValueChange={onChange}
+                className="w-100"
                 value={value}
-                onChange={onChange}
                 style={errorMessage ? {borderColor: 'red'} : {borderColor: '#969696'}}
             />
             {errorMessage && <span className="text-danger">{errorMessage}</span>}
+
         </Col>
 
     );
 }
-export default InputField;
+export default InputNumberField;

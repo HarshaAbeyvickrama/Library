@@ -6,14 +6,14 @@ import aboutImage from '../../assets/img/about.svg';
 
 const About: React.FC = () => {
     return (
-        <Container className="wrapper py-5 h-100" fluid={true}>
+        <Container className="wrapper py-5 h-100 ps-0" fluid={true}>
             <Col className="py-5">
                 <Row>
-                    <Col xs={10}>
-                        <p className="mx-5 mb-2 px-1 w-auto">Web Developer</p>
+                    <Col lg={10} xs={8}>
+                        <p className="mx-5 mb-2 ps-0 px-lg-1 w-auto">Web Developer</p>
                         <h2 className="mx-5 px-1">Harsha Abeyvickrama</h2>
                     </Col>
-                    <Col xs={2}>
+                    <Col lg={2} xs={4}>
                         <p className="hidden">.</p>
                         <SocialIcon url="https://github.com/HarshaAbeyvickrama"
                                     className="social-icon ms-2" bgColor="white"/>
@@ -24,7 +24,7 @@ const About: React.FC = () => {
                     </Col>
                 </Row>
                 <Row className="my-5">
-                    <Col xs={6}>
+                    <Col lg={6} xs={12}>
                         <h5 className="title-h5 mx-5">A Professional Web developer</h5>
                         <h2 className="mx-5 my-4">What I do</h2>
                         <ServiceItem text="Professional Web Designing"/>
@@ -34,7 +34,7 @@ const About: React.FC = () => {
                         <ServiceItem text="Software Development"/>
                         <ServiceItem text="B2B / B2C Software"/>
                     </Col>
-                    <Col xs={6}>
+                    <Col lg={6} xs={12}>
                         <h2 className="mx-5 my-4">Get in touch</h2>
                         <ServiceItem text="Tel : +94 71 1425 085"/>
                         <ServiceItem text="Location : No 8 , Malabe , Sri Lanka "/>

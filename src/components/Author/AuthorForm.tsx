@@ -29,20 +29,22 @@ const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing
 
     const handleOnAuthorFormSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        setAuthorErrors(validate(currentAuthorName));
-
-    }
-    useEffect(() => {
-        if (!authorErrors && isSubmit) {
-            onSubmit({authorName: currentAuthorName});
+        const newAuthor: IAuthor = {
+            authorName: currentAuthorName
+        }
+        if (validate(currentAuthorName)) {
+            onSubmit(newAuthor);
+            setAuthorErrors(null);
             handleClearFields();
         }
-    }, [isSubmit, authorErrors])
+
+    }
 
     //Clear fields
     const handleClearFields = () => {
         setCurrentAuthorName('');
     }
+
     //handle form close
     const handleFormClose = () => {
         onFormClose();
@@ -50,35 +52,30 @@ const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing
 
     // validate author
     const validate = (value: string) => {
-        setIsSubmit(true);
-        let error: IError | null = {authorError: ''};
+        let error: IError | null = null;
         if (value === '') {
+            error = {};
             error.authorError = "Author name is required";
-            setIsSubmit(false);
-        } else if (authors.some(author => author.authorName === value)) {
+        }
+        if (authors.some(author => author.authorName === value)) {
+            error ? error = {...error} : error = {};
             error.authorError = 'Author already exists';
-            setIsSubmit(false);
+        }
+        if (error) {
+            setAuthorErrors(error);
+            return false;
         } else {
-            error = null;
+            return true;
         }
-        return error;
     }
-
-    //setting current author to be edited on input field
-
-    useEffect(() => {
-        if (currentAuthorEdited) {
-            setCurrentAuthorName(currentAuthorEdited.authorName);
-        }
-    }, [currentAuthorEdited])
 
     const handleOnAuthorNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCurrentAuthorName(e.target.value)
-        // setAuthorErrors(null);
     }
+
     return (
         <Row className="px-0 mt-4 mb-2 mx-0">
-            <Form className="ps-0" onSubmit={handleOnAuthorFormSubmit} noValidate validated={isValidated}>
+            <Form className="ps-0" onSubmit={handleOnAuthorFormSubmit}>
                 <Col lg={12} xl={9} className="px-0">
                     <FormTitle name={isEditing ? "Edit Author" : "Create Author"} onFormClose={handleFormClose}/>
                     <InputField

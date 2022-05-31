@@ -1,14 +1,23 @@
 import React, {FC, useState} from "react";
-import SectionTitle from "../Common/SectionTitle";
-import Divider from "../Common/Divider";
-import EmptyList from "../Common/EmptyList";
-import List from "../Common/List";
-import AddItem from "../Common/AddItem";
-import BookForm from "./BookForm";
+import SectionTitle from "../../components/Common/SectionTitle";
+import Divider from "../../components/Common/Divider";
+import EmptyList from "../../components/Common/EmptyList";
+import List from "../../components/Common/List";
+import AddItem from "../../components/Common/AddItem";
+import BookForm from "../../components/Book/BookForm";
 import {IBook} from "../../types/IBook";
-import DeleteConfirmation from "../Alerts/DeleteConfirmation";
-import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
+import DeleteConfirmation from "../../components/Alerts/DeleteConfirmation";
+import SuccessTimeoutAlert from "../../components/Alerts/SuccessTimeoutAlert";
 import {IAuthor} from "../../types/IAuthor";
+// import {useAppDispatch, useAppSelector} from "../../common/hooks";
+// import {setBookFormVisibility} from "./bookSectionSlice";
+// import {
+//     setBooks,
+//     setDeleteAlertVisibility,
+//     setDeleteMessage,
+//     setSuccessAlertVisibility,
+//     setSuccessMessage
+// } from "../../views/librarySlice";
 
 interface bookSectionProps {
     books: IBook[],
@@ -73,6 +82,7 @@ const BookSection: FC<bookSectionProps> = ({books, onSetBooks, authors}) => {
         setShowDeleteConfirmation(false);
         deleteBook(currentBookIndexTobeDeleted);
     }
+
     //Delete book handler
     const deleteBook = (id: number) => {
         const newBooks = books.filter((book: IBook, index: number) => index !== id)
@@ -95,11 +105,6 @@ const BookSection: FC<bookSectionProps> = ({books, onSetBooks, authors}) => {
         setShowBookForm(true);
     }
 
-    //options for react select
-    const options = books.filter((book, index) => (
-        {value: index, label: book.title}
-    ));
-
     return (
         <React.Fragment>
             <SectionTitle title={"Books"}/>
@@ -119,12 +124,11 @@ const BookSection: FC<bookSectionProps> = ({books, onSetBooks, authors}) => {
                 <BookForm
                     onSubmit={handleOnSubmit}
                     onFormClose={handleFormClose}
-                    authors={authors}
                     isEditing={isEditing}
                     currentBookEdited={currentBookEdited}
                     currentEditedBookIndex={currentEditedBookIndex}
                     books={books}
-                />}
+                    authors={authors}/>}
             <DeleteConfirmation
                 onDelete={onBookDeleteConfirmed}
                 show={showDeleteConfirmation}
