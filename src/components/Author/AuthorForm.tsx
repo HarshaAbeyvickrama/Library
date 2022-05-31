@@ -24,6 +24,8 @@ const AuthorForm: React.FC<AuthorFormProps> = ({onFormClose, onSubmit, isEditing
     useEffect(() => {
         if (currentAuthorEdited === null) {
             handleClearFields();
+        } else {
+            setCurrentAuthorName(currentAuthorEdited.authorName);
         }
     }, [currentAuthorEdited])
 

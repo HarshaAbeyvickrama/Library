@@ -129,6 +129,7 @@ const BookSection: FC<bookSectionProps> = ({books, onSetBooks, authors}) => {
                     currentEditedBookIndex={currentEditedBookIndex}
                     books={books}
                     authors={authors}/>}
+
             <DeleteConfirmation
                 onDelete={onBookDeleteConfirmed}
                 show={showDeleteConfirmation}
@@ -136,6 +137,7 @@ const BookSection: FC<bookSectionProps> = ({books, onSetBooks, authors}) => {
                 title={"Delete Book " + currentBookTobeDeleted?.title + "?"}
                 confirmBtnText={"Delete Book"}
             />
+
             <SuccessTimeoutAlert
                 show={showSuccessAlert}
                 setShow={setShowSuccessAlert}
