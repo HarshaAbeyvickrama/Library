@@ -1,24 +1,15 @@
 import React, {useState} from "react";
-import SectionTitle from "../../components/Common/SectionTitle";
-import Divider from "../../components/Common/Divider";
+import SectionTitle from "../Common/SectionTitle";
+import Divider from "../Common/Divider";
 import {IAuthor} from "../../types/IAuthor";
-import EmptyList from "../../components/Common/EmptyList";
-import List from "../../components/Common/List";
-import AddItem from "../../components/Common/AddItem";
-import AuthorForm from "../../components/Author/AuthorForm";
-import SuccessTimeoutAlert from "../../components/Alerts/SuccessTimeoutAlert";
-import DeleteConfirmation from "../../components/Alerts/DeleteConfirmation";
-import {useAppDispatch, useAppSelector} from "../../common/hooks";
+import EmptyList from "../Common/EmptyList";
+import List from "../Common/List";
+import AddItem from "../Common/AddItem";
+import AuthorForm from "./AuthorForm";
+import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
+import DeleteConfirmation from "../Alerts/DeleteConfirmation";
+import {useAppDispatch, useAppSelector} from "../../store/common/hooks";
 import {setAuthors} from "../../views/librarySlice";
-// import {hideAuthorForm, showAuthorForm} from "./authorSectionSlice";
-// import {
-//     setAuthors,
-//     setDeleteAlertVisibility,
-//     setDeleteMessage,
-//     setSuccessAlertVisibility,
-//     setSuccessMessage
-// } from '../../views/librarySlice';
-
 
 interface AuthorSectionProps {
     authors: IAuthor[],
@@ -39,8 +30,6 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({onSetAuthors}) => {
 
     //Redux
     const dispatch = useAppDispatch();
-    // const isAuthorFormVisible = useAppSelector(state => state.authorSection.showAuthorForm);
-    // const isDeleteAlertVisible = useAppSelector(state => state.library.deleteConfirmationVisible);
     const authors = useAppSelector(state => state.library.authors);
 
     //Form close handler
@@ -53,7 +42,6 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({onSetAuthors}) => {
 
     //Add author button click handler
     const handleAddAuthorClick = () => {
-        // dispatch(showAuthorForm());
         setShowAuthorForm(!showAuthorForm);
     }
 
@@ -113,14 +101,6 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({onSetAuthors}) => {
         setCurrentAuthorEdited(editedAuthor);
         setShowAuthorForm(true);
     }
-
-    // useEffect(() => {
-    //     if (currentAuthorEdited?.authorName === '') {
-    //         return;
-    //     }
-    //     console.log(currentAuthorEdited?.authorName)
-    //     setShowAuthorForm(true);
-    // }, [currentAuthorEdited])
 
     return (
         <React.Fragment>

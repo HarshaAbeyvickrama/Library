@@ -1,23 +1,15 @@
 import React, {FC, useState} from "react";
-import SectionTitle from "../../components/Common/SectionTitle";
-import Divider from "../../components/Common/Divider";
-import EmptyList from "../../components/Common/EmptyList";
-import List from "../../components/Common/List";
-import AddItem from "../../components/Common/AddItem";
-import BookForm from "../../components/Book/BookForm";
+import SectionTitle from "../Common/SectionTitle";
+import Divider from "../Common/Divider";
+import EmptyList from "../Common/EmptyList";
+import List from "../Common/List";
+import AddItem from "../Common/AddItem";
+import BookForm from "./BookForm";
 import {IBook} from "../../types/IBook";
-import DeleteConfirmation from "../../components/Alerts/DeleteConfirmation";
-import SuccessTimeoutAlert from "../../components/Alerts/SuccessTimeoutAlert";
+import DeleteConfirmation from "../Alerts/DeleteConfirmation";
+import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
 import {IAuthor} from "../../types/IAuthor";
-// import {useAppDispatch, useAppSelector} from "../../common/hooks";
-// import {setBookFormVisibility} from "./bookSectionSlice";
-// import {
-//     setBooks,
-//     setDeleteAlertVisibility,
-//     setDeleteMessage,
-//     setSuccessAlertVisibility,
-//     setSuccessMessage
-// } from "../../views/librarySlice";
+import {useAppSelector} from "../../store/common/hooks";
 
 interface bookSectionProps {
     books: IBook[],
@@ -25,7 +17,7 @@ interface bookSectionProps {
     authors: IAuthor[]
 }
 
-const BookSection: FC<bookSectionProps> = ({books, onSetBooks, authors}) => {
+const BookSection: FC<bookSectionProps> = ({books, onSetBooks,}) => {
 
     const [showBookForm, setShowBookForm] = useState<boolean>(false);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false);
@@ -36,6 +28,8 @@ const BookSection: FC<bookSectionProps> = ({books, onSetBooks, authors}) => {
     const [currentBookEdited, setCurrentBookEdited] = useState<IBook | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [successMessage, setSuccessMessage] = useState<string>('');
+
+    const authors = useAppSelector(state => state.library.authors);
 
     //Book form close handler
     const handleFormClose = () => {
