@@ -10,4 +10,9 @@ type AuthorDetails = {
     author: IAuthor,
     index: number
 }
-export type {LibraryStore, AuthorDetails};
+
+type BookDetails = {
+    book: IBook,
+    index: number
+}
+export type {LibraryStore, AuthorDetails, BookDetails};

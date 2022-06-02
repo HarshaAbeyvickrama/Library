@@ -10,7 +10,8 @@ import DeleteConfirmation from "../Alerts/DeleteConfirmation";
 import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
 import {IAuthor} from "../../types/IAuthor";
 import {useAppDispatch, useAppSelector} from "../../store/common/hooks";
-import {setBooks} from "../../store/reducers/librarySlice";
+import {deleteBook, setBooks, updateBook} from "../../store/reducers/librarySlice";
+import {BookDetails} from "../../store/types/types";
 
 interface bookSectionProps {
     books: IBook[],
@@ -50,9 +51,11 @@ const BookSection: FC<bookSectionProps> = ({onSetBooks,}) => {
     //Create Book handler
     const handleOnSubmit = (newBook: IBook) => {
         if (isEditing) {
-            const newBookList = [...books];
-            newBookList.splice(currentEditedBookIndex, 1, newBook);
-            dispatch(setBooks(newBookList));
+            const bookDetails: BookDetails = {
+                book: newBook,
+                index: currentEditedBookIndex
+            };
+            dispatch(updateBook(bookDetails));
             setIsEditing(false);
             setSuccessMessage("Book Updated Successfully!");
             setShowSuccessAlert(true);
@@ -78,13 +81,7 @@ const BookSection: FC<bookSectionProps> = ({onSetBooks,}) => {
     //On Book deleted confirmed Handler
     const onBookDeleteConfirmed = () => {
         setShowDeleteConfirmation(false);
-        deleteBook(currentBookIndexTobeDeleted);
-    }
-
-    //Delete book handler
-    const deleteBook = (id: number) => {
-        const newBooks = books.filter((book: IBook, index: number) => index !== id)
-        dispatch(setBooks(newBooks));
+        dispatch(deleteBook(currentBookIndexTobeDeleted));
         setSuccessMessage("Book Deleted Successfully!");
         setShowSuccessAlert(true);
     }

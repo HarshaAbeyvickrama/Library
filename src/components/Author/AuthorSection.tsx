@@ -10,6 +10,7 @@ import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
 import DeleteConfirmation from "../Alerts/DeleteConfirmation";
 import {useAppDispatch, useAppSelector} from "../../store/common/hooks";
 import {deleteAuthor, setAuthors, updateAuthor} from "../../store/reducers/librarySlice";
+import {AuthorDetails} from "../../store/types/types";
 
 interface AuthorSectionProps {
     authors: IAuthor[],
@@ -48,7 +49,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({onSetAuthors}) => {
     //create author handler
     const handleOnSubmit = (newAuthor: IAuthor) => {
         if (isEditing) {
-            const authorDetails = {
+            const authorDetails: AuthorDetails = {
                 author: newAuthor,
                 index: currentEditedAuthorIndex
             };

@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IAuthor} from "../../types/IAuthor";
 import {IBook} from "../../types/IBook";
-import {AuthorDetails, LibraryStore} from "../types/types";
+import {AuthorDetails, BookDetails, LibraryStore} from "../types/types";
 
 
 const initialState: LibraryStore = {
@@ -27,15 +27,17 @@ const librarySlice = createSlice({
         setBooks: (state, action: PayloadAction<IBook[]>) => {
             state.books = action.payload;
         },
-        deleteBook: (state, action: PayloadAction<IBook>) => {
-
+        deleteBook: (state, action: PayloadAction<number>) => {
+            state.books = state.books.filter((book: IBook, index: number) => index !== action.payload);
         },
-        updateBook: (state, action: PayloadAction<IBook>) => {
-
+        updateBook: (state, action: PayloadAction<BookDetails>) => {
+            const newBookList = [...state.books];
+            newBookList.splice(action.payload.index, 1, action.payload.book);
+            state.books = newBookList;
         },
 
     }
 });
 
-export const {setAuthors, setBooks, deleteAuthor, updateAuthor} = librarySlice.actions;
+export const {setAuthors, setBooks, deleteAuthor, updateAuthor, deleteBook, updateBook} = librarySlice.actions;
 export default librarySlice.reducer;
