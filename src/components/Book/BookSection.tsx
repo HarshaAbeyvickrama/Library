@@ -10,7 +10,7 @@ import DeleteConfirmation from "../Alerts/DeleteConfirmation";
 import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
 import {IAuthor} from "../../types/IAuthor";
 import {useAppDispatch, useAppSelector} from "../../store/common/hooks";
-import {setBooks} from "../../views/librarySlice";
+import {setBooks} from "../../store/reducers/librarySlice";
 
 interface bookSectionProps {
     books: IBook[],
@@ -31,8 +31,8 @@ const BookSection: FC<bookSectionProps> = ({onSetBooks,}) => {
     const [successMessage, setSuccessMessage] = useState<string>('');
 
     //redux
-    const dispatch = useAppDispatch()
-    ;const authors = useAppSelector(state => state.library.authors);
+    const dispatch = useAppDispatch();
+    const authors = useAppSelector(state => state.library.authors);
     const books = useAppSelector(state => state.library.books);
 
     //Book form close handler

@@ -9,7 +9,7 @@ import AuthorForm from "./AuthorForm";
 import SuccessTimeoutAlert from "../Alerts/SuccessTimeoutAlert";
 import DeleteConfirmation from "../Alerts/DeleteConfirmation";
 import {useAppDispatch, useAppSelector} from "../../store/common/hooks";
-import {setAuthors} from "../../views/librarySlice";
+import {deleteAuthor, setAuthors, updateAuthor} from "../../store/reducers/librarySlice";
 
 interface AuthorSectionProps {
     authors: IAuthor[],
@@ -30,7 +30,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({onSetAuthors}) => {
 
     //Redux
     const dispatch = useAppDispatch();
-    const authors = useAppSelector(state => state.library.authors);
+    const authors: IAuthor[] = useAppSelector(state => state.library.authors);
 
     //Form close handler
     const handleFormClose = () => {
@@ -48,9 +48,11 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({onSetAuthors}) => {
     //create author handler
     const handleOnSubmit = (newAuthor: IAuthor) => {
         if (isEditing) {
-            const newAuthorList = [...authors];
-            newAuthorList.splice(currentEditedAuthorIndex, 1, newAuthor);
-            dispatch(setAuthors(newAuthorList));
+            const authorDetails = {
+                author: newAuthor,
+                index: currentEditedAuthorIndex
+            };
+            dispatch(updateAuthor(authorDetails));
             setIsEditing(false);
             setSuccessMessage("Author Updated Successfully!");
             setShowSuccessAlert(true);
@@ -77,13 +79,7 @@ const AuthorSection: React.FC<AuthorSectionProps> = ({onSetAuthors}) => {
     //On Book deleted confirmed Handler
     const onAuthorDeleteConfirmed = () => {
         setShowDeleteConfirmation(false);
-        deleteAuthor(currentAuthorIndexTobeDeleted);
-    }
-
-    //Delete author handler
-    const deleteAuthor = (id: number) => {
-        const newAuthors = authors.filter((author: IAuthor, index: number) => index !== id)
-        dispatch(setAuthors(newAuthors));
+        dispatch(deleteAuthor(currentAuthorIndexTobeDeleted));
         setSuccessMessage("Author Deleted Successfully!");
         setShowSuccessAlert(true);
     }

@@ -1,12 +1,11 @@
 import {configureStore} from "@reduxjs/toolkit";
-import libraryReducer from '../views/librarySlice';
-
+import libraryReducer from './reducers/librarySlice';
 
 const store = configureStore({
     reducer: {
         library: libraryReducer,
     }
-})
+});
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;
